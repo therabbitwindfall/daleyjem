@@ -1,8 +1,8 @@
 ﻿package com.daleyjem.as3.video
 {
 	import com.daleyjem.as3.SoundTween;
-	import com.daleyjem.as3.Utils.NCTest;
-	import com.daleyjem.as3.Utils.Uri;
+	import com.daleyjem.as3.net.NCTest;
+	import com.daleyjem.as3.net.Uri;
 	import flash.display.Sprite;
 	import flash.events.AsyncErrorEvent;
 	import flash.events.ErrorEvent;

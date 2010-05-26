@@ -4,7 +4,7 @@
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import com.daleyjem.as3.Utils.Uri;
+	import com.daleyjem.as3.net.Uri;
 	import flash.events.NetStatusEvent;
 	import flash.net.NetConnection;
 	
