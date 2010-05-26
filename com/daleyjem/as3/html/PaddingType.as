@@ -1,4 +1,4 @@
-﻿package 
+﻿package com.daleyjem.as3.html
 {
 	public final class PaddingType 
 	{
