@@ -1,7 +1,7 @@
 ﻿package com.daleyjem.as3.air.ui
 {
-	import com.daleyjem.as3.net.InternetFile;
-	import com.daleyjem.as3.net.InternetFileEvent;
+	import com.daleyjem.as3.air.net.InternetFile;
+	import com.daleyjem.as3.air.net.InternetFileEvent;
 	import flash.display.MovieClip;
 	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
