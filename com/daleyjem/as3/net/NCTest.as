@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.utils
+﻿package com.daleyjem.as3.net
 {
 	import flash.events.AsyncErrorEvent;
 	import flash.events.ErrorEvent;

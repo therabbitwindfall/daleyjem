@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.net
+﻿package com.daleyjem.as3.air.net
 {
 	import flash.events.Event;
 	

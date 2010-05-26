@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.net
+﻿package com.daleyjem.as3.air.net
 {
 	import air.net.URLMonitor;
 	import flash.events.Event;

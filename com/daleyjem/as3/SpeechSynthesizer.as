@@ -1,4 +1,4 @@
-﻿package 
+﻿package com.daleyjem.as3
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;

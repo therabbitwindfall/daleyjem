@@ -3,6 +3,7 @@
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	import flash.display.Loader;
 	
@@ -20,6 +21,7 @@
 			
 			loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onSWFLoaded);
+			loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, onLoadProgress);
 			loader.load(new URLRequest(swfPath));
 		}
 		
@@ -37,6 +39,11 @@
 		public function get origHeight():Number
 		{
 			return _origHeight;
+		}
+		
+		private function onLoadProgress(e:ProgressEvent):void 
+		{
+			dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, e.bytesLoaded, e.bytesTotal));
 		}
 		
 		private function onSWFLoaded(e:Event):void 
