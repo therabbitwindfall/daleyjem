@@ -42,11 +42,21 @@
 		public var bytesLoaded:uint = 0;
 		public var updatedAppFileURL:String;
 		
-		public function ApplicationUpdate(applicationUpdateUri:String) 
+		/**
+		 * Instantiates new ApplicationUpdate object
+		 * @param	applicationUpdateUri	<String> Url to XML file containing application info (version, changelog, etc.)
+		 */
+		public function ApplicationUpdate(applicationUpdateUri:String):void
 		{
 			_uri = applicationUpdateUri;
 		}
 		
+		/**
+		 * Checks remote server for update and dispatches <ApplicationUpdateEvent>
+		 * @param	userName	<String> Username for authentication on server containing AIR file
+		 * @param	password	<String> Password for authentication on server containing AIR file
+		 * @param	authType	<String> Authorization type for authentication on server containing AIR file
+		 */
 		public function updateCheck(userName:String = null, password:String = null, authType:String = "Basic"):void
 		{
 			var urlRequest:URLRequest = new URLRequest(_uri);
@@ -64,11 +74,10 @@
 			urlLoader.addEventListener(Event.COMPLETE, onXMLLoaded);
 		}
 		
-		private function onIOError(e:IOErrorEvent):void 
-		{
-			dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "IO error"));
-		}
-		
+		/**
+		 * Pulls down remote file to specified local <File> object
+		 * @param	localFile	<File> Local file object to put installer update
+		 */
 		public function runUpdate(localFile:File):void 
 		{
 			updater =  new Updater();
@@ -83,6 +92,11 @@
 				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "May be testing locally"));
 				NativeApplication.nativeApplication.exit();
 			}
+		}
+		
+		private function onIOError(e:IOErrorEvent):void 
+		{
+			dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "IO error"));
 		}
 		
 		private function onXMLLoaded(e:Event):void 
@@ -100,7 +114,7 @@
 			var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;
 			var ns:Namespace = appXML.namespace();
 			var currVersion:String = appXML.ns::version;
-			trace(version, currVersion);
+
 			if (version.isGreaterThan(new ApplicationVersion(currVersion)))
 			{
 				hasUpdate = true;

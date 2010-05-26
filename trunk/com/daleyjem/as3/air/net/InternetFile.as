@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.net
+﻿package com.daleyjem.as3.air.net
 {
 	import com.daleyjem.as3.Utils.Uri;
 	import flash.events.Event;
@@ -23,10 +23,10 @@
 	 * @author Jeremy Daley
 	 */
 	[Event(name = "progress", type = "flash.events.ProgressEvent")]
-	[Event(name = "metaDataReady", type = "com.daleyjem.as3.net.InternetFileEvent")]
-	[Event(name = "fileDownloadComplete", type = "com.daleyjem.as3.net.InternetFileEvent")]
-	[Event(name = "fileWriteComplete", type = "com.daleyjem.as3.net.InternetFileEvent")]
-	[Event(name = "headerPollComplete", type = "com.daleyjem.as3.net.InternetFileEvent")]
+	[Event(name = "metaDataReady", type = "com.daleyjem.as3.air.net.InternetFileEvent")]
+	[Event(name = "fileDownloadComplete", type = "com.daleyjem.as3.air.net.InternetFileEvent")]
+	[Event(name = "fileWriteComplete", type = "com.daleyjem.as3.air.net.InternetFileEvent")]
+	[Event(name = "headerPollComplete", type = "com.daleyjem.as3.air.net.InternetFileEvent")]
 	public class InternetFile extends EventDispatcher
 	{
 		private var fileStream:FileStream;

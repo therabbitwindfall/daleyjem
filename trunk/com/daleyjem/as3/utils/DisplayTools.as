@@ -27,7 +27,7 @@
 			return new Point(currX, currY);
 		}
 		
-		public static function addChildAndCrop(parentObject:DisplayObjectContainer, childObject:DisplayObjectContainer):void
+		public static function addChildToFit(parentObject:DisplayObjectContainer, childObject:DisplayObjectContainer):void
 		{
 			if (parentObject.width > parentObject.height)
 			{
