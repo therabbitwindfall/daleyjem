@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.HTML
+﻿package com.daleyjem.as3.html
 {
 	import com.daleyjem.as3.ExternalImage;
 	import flash.events.Event;
