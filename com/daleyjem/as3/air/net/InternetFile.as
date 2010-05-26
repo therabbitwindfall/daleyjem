@@ -1,6 +1,6 @@
 ﻿package com.daleyjem.as3.air.net
 {
-	import com.daleyjem.as3.Utils.Uri;
+	import com.daleyjem.as3.net.Uri;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.HTTPStatusEvent;

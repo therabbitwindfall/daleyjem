@@ -1,7 +1,7 @@
 package com.daleyjem.as3.ui
 {
 	import com.daleyjem.as3.ui.GenericButton;
-	import com.daleyjem.as3.Utils.DisplayTools;
+	import com.daleyjem.as3.utils.DisplayTools;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;

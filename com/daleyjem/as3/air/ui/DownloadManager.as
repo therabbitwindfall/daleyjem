@@ -1,12 +1,13 @@
 package com.daleyjem.as3.air.ui
 {
-	import com.daleyjem.as3.Utils.DisplayTools;
-	import com.daleyjem.as3.Utils.IO;
-	import com.daleyjem.as3.Utils.Time;
+	import com.daleyjem.as3.utils.DisplayTools;
+	import com.daleyjem.as3.utils.IO;
+	import com.daleyjem.as3.utils.Time;
 	import fl.containers.ScrollPane;
 	import flash.display.MovieClip;
-	import com.daleyjem.as3.net.InternetFile;
-	import com.daleyjem.as3.net.InternetFileEvent;
+	import com.daleyjem.as3.air.ui.DownloadManagerItem;
+	import com.daleyjem.as3.air.net.InternetFile;
+	import com.daleyjem.as3.air.net.InternetFileEvent;
 	import flash.events.MouseEvent;
 	import flash.events.ProgressEvent;
 	import flash.filesystem.File;

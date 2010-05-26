@@ -11,8 +11,8 @@
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLStream;
-	import com.daleyjem.as3.net.InternetFile;
-	import com.daleyjem.as3.net.InternetFileEvent;
+	import com.daleyjem.as3.air.net.InternetFile;
+	import com.daleyjem.as3.air.net.InternetFileEvent;
 	import flash.net.URLRequestHeader;
 	import com.dynamicflash.util.Base64;
 	
