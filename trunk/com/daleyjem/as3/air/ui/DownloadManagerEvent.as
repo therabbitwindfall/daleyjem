@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.ui
+﻿package com.daleyjem.as3.air.ui
 {
 	import flash.events.Event;
 	
