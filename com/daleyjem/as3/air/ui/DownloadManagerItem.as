@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3.ui
+﻿package com.daleyjem.as3.air.ui
 {
 	import com.daleyjem.as3.net.InternetFile;
 	import com.daleyjem.as3.net.InternetFileEvent;
