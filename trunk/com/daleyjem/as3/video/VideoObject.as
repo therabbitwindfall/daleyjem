@@ -65,12 +65,13 @@
 		 * All meta data
 		 */
 		public var rawMetaData:Object; 
-		 
+		
+		public var netStream:NetStream;
+		public var video:Video;
+		
 		private var netConnection:NetConnection;
 		private var ncTest:NCTest;
-		private var netStream:NetStream;
 		private var netClient:Object;
-		private var video:Video;
 		private var _vWidth:int;
 		private var _vHeight:int;
 		private var _autoPlay:Boolean = false;
@@ -225,6 +226,18 @@
 		public function seekPercent(value:Number):void
 		{
 			netStream.seek(duration * value);
+		}
+		
+		/**
+		 * Seeks to the specified second of the video
+		 * @param	value	<Number> A value in seconds.
+		 */
+		public function seekSeconds(value:Number):void
+		{
+			if (value < duration)
+			{
+				netStream.seek(value);
+			}
 		}
 		
 		private function onConnectionSuccess(e:Event):void
