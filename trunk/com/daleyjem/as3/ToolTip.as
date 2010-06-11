@@ -1,8 +1,6 @@
 package com.daleyjem.as3
 {
-	import fl.transitions.easing.None;
-	import fl.transitions.Tween;
-	import fl.transitions.TweenEvent;
+	import com.greensock.TweenLite;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -25,7 +23,6 @@ package com.daleyjem.as3
 		private var container:Sprite;					// <Sprite> object that contains the border & background graphics
 		private var textField:TextField;				// <TextField> object to apply Tooltip text to in constructor
 		private var clip:DisplayObject;					// <DisplayObject> object to apply Tooltip behaviors to in constructor
-		private var alphaTween:Tween;					// <Tween> object for controlling Tooltip's fading in/out
 		private var timer:Number;						// <Number> object used for setTimeout calls
 		private var textBlankFilter:DropShadowFilter;	// Fake filter (can be any filter type) for allowing non-embedded text to fade
 		private var dropShadow:DropShadowFilter;		// Tooltip's dropshadow
@@ -137,28 +134,23 @@ package com.daleyjem.as3
 			{
 				(clip.stage.mouseX + width + OFFSET_X > clip.stage.stageWidth) ? (x = clip.stage.stageWidth - width) : (x = clip.stage.mouseX + OFFSET_X);
 				(clip.stage.mouseY + height + OFFSET_Y > clip.stage.stageHeight) ? (y = clip.stage.stageHeight - height) : (y = clip.stage.mouseY + OFFSET_Y);
-				trace(clip.stage.mouseX, clip.stage.mouseY);
+				//trace(clip.stage.mouseX, clip.stage.mouseY);
 				visible = true;
 			}
 			
-			if (alphaTween != null)
-			{
-				alphaTween.removeEventListener(TweenEvent.MOTION_FINISH, hide);
-				alphaTween.stop();
-			}
-			
-			alphaTween = new Tween(this, "alpha", None.easeNone, this.alpha, 1, FADE_DURATION, true);
+			TweenLite.killTweensOf(this);
+			TweenLite.to(this, FADE_DURATION, { alpha:1 } );
+
 			timer = setTimeout(fadeOut, VISIBLE_DURATION);
 		}
 		
 		private function fadeOut():void
 		{
-			if (alphaTween != null) alphaTween.stop();
-			alphaTween = new Tween(this, "alpha", None.easeNone, this.alpha, 0, FADE_DURATION, true);
-			alphaTween.addEventListener(TweenEvent.MOTION_FINISH, hide);
+			TweenLite.killTweensOf(this);
+			TweenLite.to(this, FADE_DURATION, { alpha:0, onComplete:hide } );
 		}
 		
-		private function hide(e:TweenEvent):void
+		private function hide():void
 		{
 			this.visible = false;
 		}
