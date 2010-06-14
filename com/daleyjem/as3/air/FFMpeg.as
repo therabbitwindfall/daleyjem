@@ -1,6 +1,8 @@
 package com.daleyjem.as3.air
 {
 	import com.daleyjem.as3.utils.Time;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.NativeProcessExitEvent;
@@ -16,13 +18,17 @@ package com.daleyjem.as3.air
 		public var progressTime:Number = 0;
 		public var videoTime:Number = 0;
 		public var parameters:Array = new Array();
+		public var error:String;
 		
 		private var exeFile:File;
 		private var process:NativeProcess;
 		private var processInfo:NativeProcessStartupInfo;
 		private var timer:Timer;
+		private var errorList:Array = new Array(
+			{search: "no such file or directory", output: "Input file doesn't exist"}
+		);
 		
-		public static const PARAM_VIDEO_BITRATE:String		= "-b";
+		public static const PARAM_VIDEO_BITRATE:String		= "-b;k";
 		public static const PARAM_VIDEO_FRAMERATE:String	= "-r";
 		public static const PARAM_VIDEO_DIMENSIONS:String	= "-s";
 		public static const PARAM_VIDEO_CODEC:String		= "-vcodec";
@@ -30,7 +36,7 @@ package com.daleyjem.as3.air
 		public static const PARAM_TIME_DURATION:String		= "-t";
 		public static const PARAM_SAME_QUALITY:String 		= "-sameq";
 		public static const PARAM_AUDIO_FREQUENCY:String	= "-ar";
-		public static const PARAM_AUDIO_BITRATE:String		= "-ab";
+		public static const PARAM_AUDIO_BITRATE:String		= "-ab;k";
 		public static const PARAM_AUDIO_CHANNELS:String		= "-ac";
 		public static const PARAM_AUDIO_DISABLED:String		= "-an";
 		public static const PARAM_AUDIO_CODEC:String		= "-acodec";
@@ -61,14 +67,16 @@ package com.daleyjem.as3.air
 		public function addParameter(parameter:String, value:String = null):void
 		{
 			var paramObj:Object = new Object();
-			paramObj.parameter = parameter;
+			paramObj.parameter = parameter.split(";")[0];
 			paramObj.value = value;
+			paramObj.append = (parameter.indexOf(";") > -1) ? (parameter.split(";")[1]) : (""); 
 			parameters.push(paramObj);
 		}
 		
 		public function convert():void
 		{
 			processInfo.arguments = getArguments();
+			trace(processInfo.arguments.toString());
 			process = new NativeProcess();
 			process.addEventListener(ProgressEvent.STANDARD_ERROR_DATA, onErrorData);
 			process.addEventListener(NativeProcessExitEvent.EXIT, onProcessExit);
@@ -78,15 +86,28 @@ package com.daleyjem.as3.air
 		
 		private function onProcessExit(e:NativeProcessExitEvent):void 
 		{
-			trace("Exit");
+			dispatchEvent(new Event(Event.CLOSE));
 		}
 		
 		private function onErrorData(e:ProgressEvent):void 
 		{
 			var output:String = process.standardError.readUTFBytes(process.standardError.bytesAvailable);
+			checkForError(output);
 			if (output.indexOf("Input #0") > -1) parseInput(output);
 			if (output.indexOf("time=") > -1) parseProgress(output);
-			//trace("Error:", output);
+			//trace("<< " + output + " >>");
+		}
+		
+		private function checkForError(_output:String):void
+		{
+			for each (var errObj:Object in errorList)
+			{
+				if (_output.indexOf(errObj.search) > -1)
+				{
+					error = errObj.output;
+					dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, errObj.output));
+				}
+			}
 		}
 		
 		private function parseInput(_output:String):void
@@ -111,11 +132,12 @@ package com.daleyjem.as3.air
 			for each (var keyVal:Object in parameters)
 			{
 				returnVector.push(keyVal.parameter);
-				if (keyVal.value != null) returnVector.push(keyVal.value);
+				if (keyVal.value != null)
+				{
+					var val:String = keyVal.value + keyVal.append;
+					returnVector.push(val);
+				}
 			}
-			//returnVector.push(">");
-			//returnVector.push("output.txt");
-			//returnVector.push("2>>&1");
 
 			return returnVector;
 		}
