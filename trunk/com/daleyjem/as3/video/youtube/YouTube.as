@@ -66,7 +66,7 @@
 				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
 				return;
 			}
-			var param_t = result[1];
+			var param_t:String = result[1];
 			
 			regEx = /"video_id": "(.*?)"/;
 			result = htmlSource.match(regEx);
@@ -75,7 +75,7 @@
 				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
 				return;
 			}
-			var param_video_id = result[1];
+			var param_video_id:String = result[1];
 			
 			flvURL = URL_GET_PREPEND + "video_id=" + param_video_id + "&t=" + param_t;
 			
