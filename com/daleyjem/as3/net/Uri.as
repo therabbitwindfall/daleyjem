@@ -7,6 +7,8 @@ package com.daleyjem.as3.net
 		private var _host:String;
 		private var _port:String;
 		private var _trail:String;
+		private var _hash:String = null;
+		private var _variables:Array = new Array();
 		
 		public var isRTMP:Boolean = false;
 		
@@ -17,8 +19,23 @@ package com.daleyjem.as3.net
 			_protocol = path.split("://")[0];
 			_host = path.split("://")[1].split("/")[0];
 			_port = (host.split(":").length > 1) ? (host.split(":")[1]) : ("");
-			var temp:String = path.split("://")[1];
+			var temp:Object = path.split("://")[1];
 			_trail = temp.replace(host, "");
+			temp = path.split("#");
+			if (temp.length > 1) _hash = temp[1];
+			temp = temp[0].split("?");
+			if (temp.length > 1)
+			{
+				temp = temp[1].split("&");
+				for each (var raw:String in temp)
+				{
+					var keyVal:Object = new Object();
+					keyVal.key = raw.split("=")[0];
+					keyVal.value = raw.split("=")[1];
+					_variables.push(keyVal);
+				}
+			}
+			
 			if (protocol.substr(0, 3).toLowerCase() == "rtm") isRTMP = true;
 		}
 		
@@ -60,6 +77,15 @@ package com.daleyjem.as3.net
 		public function getNCPath():String
 		{
 			return _path.substring(0, _path.lastIndexOf("/"));
+		}
+		
+		public function getVariable(key:String):Object
+		{
+			for each (var keyVal:Object in _variables)
+			{
+				if (keyVal.key == key) return keyVal;
+			}
+			return null;
 		}
 		
 		private function rebuildPath():void
