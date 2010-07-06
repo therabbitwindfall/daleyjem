@@ -56,12 +56,6 @@ package com.daleyjem.as3.air
 		{
 			processInfo = new NativeProcessStartupInfo();
 			processInfo.executable = executable;
-			
-			//if (output.length == 0) return;
-			
-			//load(output);
-			//parseInput();
-			//parseOutput();
 		}
 		
 		public function addParameter(parameter:String, value:String = null):void
@@ -76,12 +70,10 @@ package com.daleyjem.as3.air
 		public function convert():void
 		{
 			processInfo.arguments = getArguments();
-			trace(processInfo.arguments.toString());
 			process = new NativeProcess();
 			process.addEventListener(ProgressEvent.STANDARD_ERROR_DATA, onErrorData);
 			process.addEventListener(NativeProcessExitEvent.EXIT, onProcessExit);
 			process.start(processInfo);
-			//timer.start();
 		}
 		
 		private function onProcessExit(e:NativeProcessExitEvent):void 
@@ -95,7 +87,6 @@ package com.daleyjem.as3.air
 			checkForError(output);
 			if (output.indexOf("Input #0") > -1) parseInput(output);
 			if (output.indexOf("time=") > -1) parseProgress(output);
-			//trace("<< " + output + " >>");
 		}
 		
 		private function checkForError(_output:String):void
@@ -115,14 +106,13 @@ package com.daleyjem.as3.air
 			var inputString:String = _output.substring(_output.indexOf("Input #0,"), _output.indexOf("Output #0,"));
 			var temp:String = inputString.substr(inputString.indexOf("Duration: "));
 			videoTime = Time.convertTimeStampToSeconds(temp.substring(10, temp.indexOf(",") - 1));
-			//trace("duration:", videoTime);
 		}
 		
 		private function parseProgress(_output:String):void
 		{
 			var temp:String = _output.substring(_output.lastIndexOf("time="), _output.lastIndexOf("bitrate="));
 			progressTime = Number(temp.substring(5, temp.indexOf(" ") - 1));
-			//trace("progress:", progressTime);
+
 			dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS));
 		}
 		
@@ -141,21 +131,5 @@ package com.daleyjem.as3.air
 
 			return returnVector;
 		}
-		/*
-		public function load(output:String):void
-		{
-			_output = output;
-			parseProgress();
-		}
-		*/
-		
-		/*
-		private function parseOutput():void
-		{
-			//var outputString:String = _output.substring(_output.indexOf("Output #0,"), _output.indexOf("Stream mapping:"));
-		}
-		*/
-		
-		
 	}
 }
