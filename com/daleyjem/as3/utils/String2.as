@@ -18,5 +18,10 @@ package com.daleyjem.as3.utils
 			}
 			return raw;
 		}
+		
+		public static function trimParenthetic(raw:String):String
+		{
+			return raw.split(/\(\S*\)/).join("");
+		}
 	}
 }
