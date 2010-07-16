@@ -2,20 +2,20 @@
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.display.DisplayObject;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.geom.Rectangle;
+	import flash.geom.Matrix;
+	import flash.display.Graphics;
+	import flash.display.GradientType;
+	import flash.display.SpreadMethod;
 	
 	public class Reflection extends Sprite
-	{
-		import flash.display.DisplayObject;
-		import flash.display.Bitmap;
-		import flash.display.BitmapData;
-		import flash.geom.Rectangle;
-		import flash.geom.Matrix;
-		import flash.display.Graphics;
-		import flash.display.GradientType;
-		import flash.display.SpreadMethod;
+	{		
+		public var rOpacity:Number;
 		
 		private var rObj:DisplayObject;
-		private var rOpacity:Number;
 		private var rGradientSpread:Number;
 		private var rRectangle:Rectangle;
 		private var rUpdate:Boolean;
@@ -30,13 +30,14 @@
 		 * @param	_opacity		<Number> 0-1 ... Total opacity of the reflection
 		 * @param	_gradientSpread	<Number> 0-255 ... Gradient spread of the reflections fade to zero opacity
 		 * @param	_scaleY			<Number> 0-1 ... Vertical "perspective" scale
+		 * @param	_heightOffset	<Number> Extends the top/bottom padding of reflecton rectangle. Most commonly used when a GlowFilter is on the reference object; which doesn't add to the height property.
 		 */
-		public function Reflection(_obj:DisplayObject, _update:Boolean = false, _opacity:Number = .4, _gradientSpread:Number = 255, _scaleY:Number = 1):void
+		public function Reflection(_obj:DisplayObject, _update:Boolean = false, _opacity:Number = .4, _gradientSpread:Number = 255, _scaleY:Number = 1, _heightOffset:Number = 0):void
 		{
 			rObj = _obj;
 			rOpacity = _opacity;
 			rGradientSpread = _gradientSpread;
-			rRectangle = new Rectangle(0, 0, rObj.width, rObj.height);
+			rRectangle = new Rectangle(0, -(_heightOffset / 2), rObj.width, rObj.height + _heightOffset);
 			rScaleY = _scaleY;
 			
 			CreateBitmapReflection();
