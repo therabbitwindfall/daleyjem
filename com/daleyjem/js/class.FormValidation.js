@@ -1,4 +1,11 @@
-function validateForm(formID, goodColor, badColor)
+/*
+    Set <label> class for required field to "required"
+    If <select> instead of <input>, append class of "req_type_select"
+    Use "req_type_[type]" for non-standard text:
+        types = req_type_email, req_type_checkbox
+    "callback" optional: calls function instead of standard alert box.
+*/
+function validateForm(formID, goodColor, badColor, callback)
 {
 	var theForm = document.getElementById(formID);
 	var emailRegEx = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
@@ -67,7 +74,14 @@ function validateForm(formID, goodColor, badColor)
 			}
 		}
 	}
-	
-	if (clean == false) alert("Please fill in the highlighted fields before submitting and try again");
+
+	if (clean == false) {
+	    if (callback != null) {
+	        callback();
+	    }
+	    else {
+	        alert("Please fill in the highlighted fields before submitting and try again");
+	    }
+	}
 	return clean;
 }
