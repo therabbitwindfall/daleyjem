@@ -84,6 +84,9 @@
 			{extension: "mp4", protocol: "mp4:", keepExtension: true}
 		);
 		
+		/* NetStatus flags */
+		private var isStopped:Boolean = false;
+		
 		/**
 		 * Creates a container for displaying and controlling playback of video.
 		 * @param	vWidth	<int> The desired width of the video.
@@ -353,7 +356,7 @@
 		
 		private function onConnectionNetStatus(e:NetStatusEvent):void 
 		{
-			//trace(url, "=", e.info.code);
+			trace(e.info.code);
 			switch (e.info.code)
 			{
 				case "NetConnection.Connect.Success":
@@ -364,28 +367,45 @@
 		
 		private function onStreamNetStatus(e:NetStatusEvent):void 
 		{
-			//trace(url, "=", e.info.code);
-			//trace(netStream.bufferLength, netStream.bufferTime);
+			trace(e.info.code);
+			trace("buffer:", netStream.bufferLength, "duration:", duration);
 			switch (e.info.code)
 			{
 				case "NetStream.Play.Stop":
+					isStopped = true;
+					/*
 					removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 					time = 0;
 					status = VideoObjectStatus.STOPPED;
 					dispatchEvent(new VideoObjectEvent(VideoObjectEvent.PLAY_STATE_COMPLETE));
+					*/
 					break;
 				case "NetStream.Play.Reset":
 					//dispatchEvent(new VideoObjectEvent(VideoObjectEvent.VIDEO_READY));
 					break;
 				case "NetStream.Play.Start":
+					isStopped = false;
 					dispatchEvent(new VideoObjectEvent(VideoObjectEvent.VIDEO_READY));
 					break;
 				case "NetStream.Buffer.Empty":
-					dispatchEvent(new VideoObjectEvent(VideoObjectEvent.BUFFER_START));
+					if (isStopped)
+					{
+						removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+						time = 0;
+						status = VideoObjectStatus.STOPPED;
+						dispatchEvent(new VideoObjectEvent(VideoObjectEvent.PLAY_STATE_COMPLETE));
+					}
+					else
+					{
+						dispatchEvent(new VideoObjectEvent(VideoObjectEvent.BUFFER_START));
+					}
 					break;
 				case "NetStream.Buffer.Full":
 					if (!hasEventListener(Event.ENTER_FRAME)) addEventListener(Event.ENTER_FRAME, onEnterFrame);
 					dispatchEvent(new VideoObjectEvent(VideoObjectEvent.BUFFER_COMPLETE));
+					break;
+				case "NetStream.Buffer.Flush":
+					
 					break;
 			}
 		}
