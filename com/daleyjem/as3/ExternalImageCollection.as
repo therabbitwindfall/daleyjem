@@ -12,6 +12,8 @@
 		public var bytesLoaded:Number = 0;
 		
 		private var numImagesInit:int = 0;
+		private var numImagesComplete:int = 0;
+		private var hasDispatchedComplete:Boolean = false;
 		
 		public function ExternalImageCollection(externalImageArray:Array):void
 		{
@@ -19,8 +21,8 @@
 			
 			for each (var externalImage:ExternalImage in images)
 			{
+				externalImage.addEventListener(Event.COMPLETE, onImageComplete);
 				externalImage.addEventListener(Event.INIT, onImageInit);
-				externalImage.addEventListener(ProgressEvent.PROGRESS, onImageProgress);
 			}
 		}
 		
@@ -32,8 +34,7 @@
 				tempBytesLoaded += externalImage.bytesLoaded;
 			}
 			bytesLoaded = tempBytesLoaded;
-			dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS));
-			if (bytesLoaded == bytesTotal) dispatchEvent(new Event(Event.COMPLETE));
+			dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, bytesLoaded, bytesTotal));
 		}
 		
 		private function onImageInit(e:Event):void 
@@ -43,9 +44,19 @@
 			{
 				for each (var externalImage:ExternalImage in images)
 				{
+					externalImage.addEventListener(ProgressEvent.PROGRESS, onImageProgress);
 					bytesTotal += externalImage.bytesTotal;
 				}
 				dispatchEvent(new Event(Event.INIT));
+			}
+		}
+		
+		private function onImageComplete(e:Event):void 
+		{
+			numImagesComplete++;
+			if (numImagesComplete == images.length)
+			{
+				dispatchEvent(new Event(Event.COMPLETE));
 			}
 		}
 	}

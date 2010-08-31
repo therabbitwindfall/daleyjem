@@ -19,7 +19,7 @@
 		
 		private static const URL_SEARCH_PREPEND:String	= "http://gdata.youtube.com/feeds/api/videos?";
 		private static const URL_PAGE_PREPEND:String	= "http://www.youtube.com/watch?";
-		private static const URL_GET_PREPEND:String		= "http://www.youtube.com/get_video.php?";
+		private static const URL_GET_PREPEND:String		= "http://www.youtube.com/get_video?";
 		
 		/**
 		 * Instantiates a YouTube object for calling methods that
@@ -72,13 +72,14 @@
 			result = htmlSource.match(regEx);
 			if (result.length < 2)
 			{
+				trace("YouTube: Error matching RegEx");
 				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
 				return;
 			}
 			var param_video_id:String = result[1];
 			
 			flvURL = URL_GET_PREPEND + "video_id=" + param_video_id + "&t=" + param_t;
-			
+			trace("YouTube: found URL:", flvURL);
 			dispatchEvent(new YouTubeEvent(YouTubeEvent.GET_FLV_COMPLETE));
 		}
 		
