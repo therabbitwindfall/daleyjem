@@ -13,14 +13,17 @@ package com.daleyjem.as3
 		public function Twitter():void
 		{
 			if (!ExternalInterface.available) dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, ERR_NO_BROWSER));
-			//ExternalInterface.call("document.getElementsByTagName(\"body\")[0].innerHTML += \"yo dude\"");
-			var js:String = "javascript:document.getElementsByTagName(\"body\")[0].innerHTML += \"yo dude\"";
-			//navigateToURL(new URLRequest(js), "_self");
 		}
 		
-		public function test():void
+		public function getUserTimeline(userName:String):void
 		{
-			Javascript.send("document.getElementsByTagName('body')[0].innerHTML += 'dude<br>'; ");
+			var js:String = "var theHead = document.getElementsByTagName('head')[0];";
+			js += "var scriptElement = document.createElement('script');";
+			js += "scriptElement.type = 'text/javascript';";
+			js += "scriptElement.src = 'http://api.twitter.com/1/statuses/user_timeline.xml?screen_name=" + userName + "&count=1&callback=onTwitter';";
+			js += "theHead.appendChild(scriptElement);";
+			
+			Javascript.send(js);
 		}
 	}
 }
