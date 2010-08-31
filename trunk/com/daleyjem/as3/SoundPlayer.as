@@ -78,6 +78,16 @@
 		}
 		
 		/**
+		 * Seeks to a given time (in milliseconds) within the audio file.
+		 * @param	seekTime	<Number> The time in milliseconds to seek to.
+		 */
+		public function seek(seekTime:Number):void
+		{
+			stop();
+			sound.play(seekTime);
+		}
+		
+		/**
 		 * Mutes the currently playing sound.
 		 */
 		public function mute():void

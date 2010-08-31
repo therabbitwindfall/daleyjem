@@ -1,7 +1,7 @@
 ﻿var doc = fl.getDocumentDOM();
 var panel = doc.xmlPanel(fl.configURI + "Commands/Insert.xml");
 
-var selectionArray = {trade:"™", copy:"©", reg:"®", bullet:"•"};
+var selectionArray = {trade:"™", copy:"©", reg:"®", bullet:"•", apos:"’"};
 
 if (panel.dismiss == "accept")
 {
