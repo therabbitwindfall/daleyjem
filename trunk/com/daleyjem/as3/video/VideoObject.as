@@ -18,6 +18,7 @@
 	import flash.media.Video;
 	import com.daleyjem.as3.video.VideoObjectStatus;
 	import com.daleyjem.as3.video.VideoObjectEvent;
+	import flash.utils.getQualifiedClassName;
 	
 	[Event(name = "playProgress", type = "com.daleyjem.as3.video.VideoObjectEvent")]
     [Event(name = "playStatePlaying", type = "com.daleyjem.as3.video.VideoObjectEvent")]
@@ -86,7 +87,8 @@
 		
 		/* NetStatus flags */
 		private var isStopped:Boolean = false;
-		
+		private var isBufferEmptied:Boolean = false;
+		private var isCompleteDispatched:Boolean = false;
 		/**
 		 * Creates a container for displaying and controlling playback of video.
 		 * @param	vWidth	<int> The desired width of the video.
@@ -373,27 +375,33 @@
 			{
 				case "NetStream.Play.Stop":
 					isStopped = true;
-					/*
-					removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-					time = 0;
-					status = VideoObjectStatus.STOPPED;
-					dispatchEvent(new VideoObjectEvent(VideoObjectEvent.PLAY_STATE_COMPLETE));
-					*/
+					if (isBufferEmptied && !isCompleteDispatched)
+					{
+						removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+						time = 0;
+						status = VideoObjectStatus.STOPPED;
+						dispatchEvent(new VideoObjectEvent(VideoObjectEvent.PLAY_STATE_COMPLETE));
+						isCompleteDispatched = true;
+					}
 					break;
 				case "NetStream.Play.Reset":
 					//dispatchEvent(new VideoObjectEvent(VideoObjectEvent.VIDEO_READY));
 					break;
 				case "NetStream.Play.Start":
 					isStopped = false;
+					isBufferEmptied = false;
+					isCompleteDispatched = false;
 					dispatchEvent(new VideoObjectEvent(VideoObjectEvent.VIDEO_READY));
 					break;
 				case "NetStream.Buffer.Empty":
-					if (isStopped)
+					isBufferEmptied = true;
+					if (isStopped && !isCompleteDispatched)
 					{
 						removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 						time = 0;
 						status = VideoObjectStatus.STOPPED;
 						dispatchEvent(new VideoObjectEvent(VideoObjectEvent.PLAY_STATE_COMPLETE));
+						isCompleteDispatched = true;
 					}
 					else
 					{
