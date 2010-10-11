@@ -1,5 +1,6 @@
 ﻿package com.daleyjem.as3
 {
+	import flash.display.DisplayObject;
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -9,6 +10,8 @@
 	
 	public class ExternalSWF extends Sprite
 	{
+		public var content:DisplayObject;
+		
 		private var loader:Loader;
 		private var _origWidth:Number = 0;
 		private var _origHeight:Number = 0;
@@ -51,8 +54,9 @@
 			var info:LoaderInfo = e.target as LoaderInfo;
 			_origWidth = info.width;
 			_origHeight = info.height;
-			
+
 			var loader:Loader = info.loader;
+			content = loader.content;
 			addChild(loader);
 			
 			if (_maskBounds)

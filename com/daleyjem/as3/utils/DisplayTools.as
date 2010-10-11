@@ -3,6 +3,7 @@
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Point;
+	import flash.utils.getQualifiedClassName;
 	
 	public class DisplayTools
 	{
@@ -23,8 +24,22 @@
 				currX += point.x;
 				currY += point.y;
 			}
-			
 			return new Point(currX, currY);
+		}
+		
+		public static function removeChildrenByType(object:DisplayObjectContainer, definitionName:String):void
+		{
+			var items:Array = new Array();
+			var childCount:uint = object.numChildren;
+			for (var childIndex:uint = 0; childIndex < childCount; childIndex++)
+			{
+				var child:DisplayObject = object.getChildAt(childIndex) as DisplayObject;
+				if (getQualifiedClassName(child).indexOf(definitionName) > -1) items.push(child);
+			}
+			for each (var item:DisplayObject in items)
+			{
+				object.removeChild(item);
+			}
 		}
 		
 		public static function addChildToFit(parentObject:DisplayObjectContainer, childObject:DisplayObjectContainer):void

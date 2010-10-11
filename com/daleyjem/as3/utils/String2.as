@@ -2,6 +2,15 @@ package com.daleyjem.as3.utils
 {
 	public class String2
 	{
+		public static function prependCharacter(originalString:String, destinationLength:uint, character:String):String
+		{
+			while (originalString.length < destinationLength)
+			{
+				originalString = character + originalString;
+			}
+			return originalString;
+		}
+		
 		public static function rTrim(raw:String):String
 		{
 			var charCount:uint = raw.length;
