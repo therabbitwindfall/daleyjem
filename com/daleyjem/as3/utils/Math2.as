@@ -13,5 +13,11 @@ package com.daleyjem.as3.utils
 			var ret:Number = int(value * multiplier) / multiplier;
 			return ret;
 		}
+		
+		public static function random(from:Number, to:Number, round:Boolean = true):Number
+		{
+			var val:Number = (Math.random() * (to - from)) + from;
+			return (round) ? (Math.round(val)) : (val);
+		}
 	}
 }

@@ -2,6 +2,7 @@
 {
 	import flash.display.DisplayObject;
 	import flash.display.LoaderInfo;
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
@@ -10,7 +11,7 @@
 	
 	public class ExternalSWF extends Sprite
 	{
-		public var content:DisplayObject;
+		public var content:MovieClip;
 		
 		private var loader:Loader;
 		private var _origWidth:Number = 0;
@@ -56,7 +57,7 @@
 			_origHeight = info.height;
 
 			var loader:Loader = info.loader;
-			content = loader.content;
+			content = loader.content as MovieClip;
 			addChild(loader);
 			
 			if (_maskBounds)
