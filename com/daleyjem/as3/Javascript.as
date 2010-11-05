@@ -5,8 +5,7 @@ package com.daleyjem.as3
 	public class Javascript
 	{
 		/**
-		 * Allows Flash to call a process of Javascript commands, rather than just functions w/parameters
-		 * By using "eval"
+		 * Allows Flash to call a process of Javascript commands, rather than just functions w/parameters.
 		 * @param	js	<String> A single command or series of commands (terminated with ";")
 		 * @example	Javascript.send("document.getElementsByTagName('body')[0].innerHTML += 'Appended text'");
 		 */
