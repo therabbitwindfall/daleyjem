@@ -82,9 +82,15 @@
 			displayObject.y = (siblingObject.y + (siblingObject.height / 2)) - (displayObject.height / 2);
 		}
 		
-		public static function scaleToMax(displayObject:DisplayObject, maxWidth:Number, maxHeight:Number):void
+		/**
+		 * Scales the DisplayObject to the first x/y edge with no bleed. Pillar- or letter-boxing will occur.
+		 * @param	displayObject
+		 * @param	maxWidth
+		 * @param	maxHeight
+		 */
+		public static function scaleToFirstEdge(displayObject:DisplayObject, maxWidth:Number, maxHeight:Number):void
 		{
-			if (displayObject.width > displayObject.height)
+			if (displayObject.width / displayObject.height > maxWidth / maxHeight)
 			{
 				var newHeight:Number = (maxWidth * displayObject.height) / displayObject.width;
 				displayObject.width = maxWidth;
@@ -95,6 +101,28 @@
 				var newWidth:Number = (maxHeight * displayObject.width) / displayObject.height;
 				displayObject.height = maxHeight;
 				displayObject.width = newWidth;
+			}
+		}
+		
+		/**
+		 * Scales the DisplayObject to the second x/y edge where the remainder bleeds outside.
+		 * @param	displayObject
+		 * @param	minWidth
+		 * @param	minHeight
+		 */
+		public static function scaleToSecondEdge(displayObject:DisplayObject, minWidth:Number, minHeight:Number):void
+		{
+			if (displayObject.width / displayObject.height > minWidth / minHeight)
+			{
+				var newWidth:Number = (minHeight * displayObject.width) / displayObject.height;
+				displayObject.height = minHeight;
+				displayObject.width = newWidth;
+			}
+			else
+			{
+				var newHeight:Number = (minWidth * displayObject.height) / displayObject.width;
+				displayObject.width = minWidth;
+				displayObject.height = newHeight;
 			}
 		}
 	}

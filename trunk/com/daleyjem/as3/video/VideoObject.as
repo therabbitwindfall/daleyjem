@@ -28,6 +28,7 @@
 	[Event(name = "invalidConnection", type = "com.daleyjem.as3.video.VideoObjectEvent")]
 	[Event(name = "bufferStart", type = "com.daleyjem.as3.video.VideoObjectEvent")]
 	[Event(name = "bufferComplete", type = "com.daleyjem.as3.video.VideoObjectEvent")]
+	[Event(name = "metaDataReady", type = "com.daleyjem.as3.video.VideoObjectEvent")]
 	public class VideoObject extends Sprite
 	{
 		/**
@@ -358,7 +359,7 @@
 		
 		private function onConnectionNetStatus(e:NetStatusEvent):void 
 		{
-			trace(e.info.code);
+			//trace(e.info.code);
 			switch (e.info.code)
 			{
 				case "NetConnection.Connect.Success":
@@ -369,8 +370,8 @@
 		
 		private function onStreamNetStatus(e:NetStatusEvent):void 
 		{
-			trace(e.info.code);
-			trace("buffer:", netStream.bufferLength, "duration:", duration);
+			//trace(e.info.code);
+			//trace("buffer:", netStream.bufferLength, "duration:", duration);
 			switch (e.info.code)
 			{
 				case "NetStream.Play.Stop":

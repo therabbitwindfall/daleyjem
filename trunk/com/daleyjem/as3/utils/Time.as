@@ -1,6 +1,6 @@
 package com.daleyjem.as3.utils
 {
-	public final class Time
+	public class Time
 	{
 		/**
 		 * Converts a hh:mm:ss.ms formatted timestamp to seconds.
