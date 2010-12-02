@@ -2,6 +2,7 @@
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 	
@@ -25,6 +26,12 @@
 				currY += point.y;
 			}
 			return new Point(currX, currY);
+		}
+		
+		public static function drawBorder(sprite:Sprite):void
+		{
+			sprite.graphics.lineStyle(1);
+			sprite.graphics.drawRect(0, 0, sprite.width, sprite.height);
 		}
 		
 		public static function removeChildrenByType(object:DisplayObjectContainer, definitionName:String):void
@@ -74,6 +81,13 @@
 		public static function centerYWithin(displayObject:DisplayObject, areaHeight:uint):void
 		{
 			displayObject.y = (areaHeight / 2) - (displayObject.height / 2);
+		}
+		
+		public static function getPointAtScale(displayObject:DisplayObject, newScale:Number = 1):Point
+		{
+			var newX:Number = (displayObject.x + (displayObject.width / 2)) - ((displayObject.width * newScale) / 2);
+			var newY:Number = (displayObject.y + (displayObject.height / 2)) - ((displayObject.height * newScale) / 2);
+			return new Point(newX, newY);
 		}
 		
 		public static function centerWithinSibling(displayObject:DisplayObject, siblingObject:DisplayObject):void

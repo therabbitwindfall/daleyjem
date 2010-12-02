@@ -42,6 +42,7 @@
 		public var bytesTotal:uint;
 		public var localFile:File;
 		public var headerBytes:uint = 0;
+		public var shortName:String;
 		
 		public static const SOCKET_STATUS_OK:String 	= "ok";
 		public static const SOCKET_STATUS_ERROR:String 	= "error";
@@ -50,6 +51,7 @@
 		{
 			_url = url;
 			uri = new Uri(_url);
+			shortName = url.substr(url.lastIndexOf("/") + 1);
 		}
 		
 		public function download(localUri:String, userName:String = null, password:String = null, authType:String = "Basic"):void

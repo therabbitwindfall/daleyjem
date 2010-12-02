@@ -13,7 +13,7 @@
 			return false;
 		}
  
-		public static function cloneShallow(sourceArray:Array):Array 
+		public static function cloneShallow(sourceArray:Object):Object
 		{ 
 			var returnArray:Array = new Array();
 			var itemCount:Number = sourceArray.length;
@@ -24,15 +24,43 @@
 			return returnArray;
 		}
 		
-		public static function randomize(array:Array):Array
+		public static function randomize(array:Object):Object
 		{
 			var newArray:Array = new Array();
 			while (array.length > 0)
 			{
-				var obj:Array = array.splice(Math.floor(Math.random() * array.length), 1);
+				var obj:Object = array.splice(Math.floor(Math.random() * array.length), 1);
+				
 				newArray.push(obj[0]);
 			}
 			return newArray;
+		}
+		
+		public static function sortOnKey(array:Object, key:String):Array
+		{
+			var count:uint = array.length;
+			var newArray:Array = new Array();
+			for (var objIndex:uint = 0; objIndex < count; objIndex++)
+			{
+				var newItem:Array;
+				if (typeof(array[objIndex][key]) == "number")
+				{
+					newItem = new Array(String2.prependCharacter(String(array[objIndex][key]), 9, "0"), array[objIndex]);
+				}
+				else
+				{
+					newItem = new Array(array[objIndex][key], array[objIndex]);
+				}
+				if (typeof(array[objIndex][key]) == "number");
+				newArray.push(newItem);
+			}
+			newArray = newArray.sort();
+			var returnArray:Array = new Array();
+			for each (var arrayItem:Object in newArray)
+			{
+				returnArray.push(arrayItem[1]);
+			}
+			return returnArray;
 		}
 	}
 }
