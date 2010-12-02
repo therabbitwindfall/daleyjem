@@ -78,6 +78,18 @@
 			SetColor(newColor);
 		}
 		
+		public static function getColorInRangePercentage(_tempStartColor:Number, _tempEndColor:Number, _tempPercentage:Number):Number
+		{
+			var tempStartColor:Array = HexToRGB(_tempStartColor);
+			var tempEndColor:Array = HexToRGB(_tempEndColor);
+			var rChange:Number = Math.round((tempEndColor.r - tempStartColor.r) * _tempPercentage);
+			var gChange:Number = Math.round((tempEndColor.g - tempStartColor.g) * _tempPercentage);
+			var bChange:Number = Math.round((tempEndColor.b - tempStartColor.b) * _tempPercentage);
+			var newColor:Number = RGBToHex(tempStartColor.r + rChange, tempStartColor.g + gChange, tempStartColor.b + bChange);
+			
+			return newColor;
+		}
+		
 		private function SetColor(myNewColor:Number):void
 		{
 			var myCT:ColorTransform = theClip.transform.colorTransform;
@@ -86,7 +98,7 @@
 			theClip.transform.colorTransform = myCT;
 		}
 		
-		private function HexToRGB(hex:Number):Array
+		private static function HexToRGB(hex:Number):Array
 		{
 			var newHex:Array = new Array();
 			newHex.r = hex >> 16;
@@ -95,7 +107,7 @@
 			return newHex;
 		}
 		
-		private function RGBToHex(r:Number, g:Number, b:Number):Number
+		private static function RGBToHex(r:Number, g:Number, b:Number):Number
 		{
 			return r << 16 ^ g << 8 ^ b;
 		}
