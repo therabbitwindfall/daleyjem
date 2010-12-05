@@ -58,7 +58,12 @@ package com.daleyjem.as3
 		
 		public function write(value:String):void
 		{
-			txtTrace.text = value + "\n";
+			txtTrace.text = value;
+		}
+		
+		public function writeLn(value:String):void
+		{
+			txtTrace.appendText(value + "\n");
 		}
 		
 		public function get right():Number
