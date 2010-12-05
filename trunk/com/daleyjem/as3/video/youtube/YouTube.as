@@ -61,7 +61,7 @@
 			
 			var regEx:RegExp = /"t": "(.*?)"/;
 			var result:Array = htmlSource.match(regEx);
-			if (result.length < 2)
+			if (result == null || result.length < 2)
 			{
 				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
 				return;
