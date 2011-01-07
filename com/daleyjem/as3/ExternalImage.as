@@ -19,6 +19,10 @@
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	
+	[Event(name = "init", type = "flash.events.Event")]
+	[Event(name = "complete", type = "flash.events.Event")]
+	[Event(name = "progress", type = "flash.events.ProgressEvent")]
+	[Event(name="ioError", type="flash.events.IOErrorEvent")]
 	public class ExternalImage extends Sprite
 	{		
 		public var image:Bitmap;
@@ -156,9 +160,10 @@
 		
 		private function formatRelativePath(shortPath:String, relativePath:String):String
 		{
-			var backDirCount:Number = relativePath.split("../").length - 1;
 			var backDirSplit:Array = relativePath.split("../");
-			var endAppend:String = backDirSplit[backDirSplit.length - 1];
+			var backDirCount:Number = backDirSplit.length - 1;
+			
+			var endAppend:String = backDirSplit[backDirCount];
 			var shortSplit:Array = shortPath.split("/");
 			shortSplit.splice(shortSplit.length - 1, 1);
 			
