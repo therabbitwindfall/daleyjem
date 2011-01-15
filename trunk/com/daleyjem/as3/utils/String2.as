@@ -28,6 +28,11 @@ package com.daleyjem.as3.utils
 			return raw;
 		}
 		
+		public static function insertAtIndex(target:String, insertText:String, index:int):String
+		{
+			return target.substr(0, index) + insertText + target.substr(index);
+		}
+		
 		public static function trimParenthetic(raw:String):String
 		{
 			return raw.split(/\(\S*\)/).join("");
