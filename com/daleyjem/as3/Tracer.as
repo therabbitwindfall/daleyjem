@@ -19,8 +19,9 @@ package com.daleyjem.as3
 		private static const DEF_HEIGHT:Number = 100;
 		private static const DEF_MARGIN:Number = 10;
 		
-		public function Tracer(params:Object):void
+		public function Tracer(params:Object = null):void
 		{
+			if (params == null) params = new Object();
 			bgTransparency = .8;
 			bgColor = 0xffffff;
 			
@@ -39,7 +40,7 @@ package com.daleyjem.as3
 			
 			bg = new Sprite();
 			bg.graphics.beginFill(bgColor, bgTransparency);
-			bg.graphics.drawRoundRect(0, 0, (params["width"]) ? (params["width"]) : (DEF_WIDTH), (params["height"]) ? (params["height"]) : (DEF_HEIGHT), 17, 14);
+			bg.graphics.drawRoundRect(0, 0, (params["width"] != null) ? (params["width"]) : (DEF_WIDTH), (params["height"] != null) ? (params["height"]) : (DEF_HEIGHT), 17, 14);
 			bg.graphics.endFill();
 			addChild(bg);
 			
@@ -54,6 +55,8 @@ package com.daleyjem.as3
 			txtTrace.height = bg.height - (txtTrace.y * 2);
 			txtTrace.multiline = true;
 			addChild(txtTrace);
+			
+			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		public function write(value:String):void
@@ -91,6 +94,14 @@ package com.daleyjem.as3
 		public function set bgTransparency(value:Number):void
 		{
 			_params["bgTransparency"] = value;
+		}
+		
+		private function onEnterFrame(e:Event):void 
+		{
+			if (stage != null && parent == stage)
+			{
+				stage.setChildIndex(this, stage.numChildren - 1);
+			}
 		}
 	}
 	

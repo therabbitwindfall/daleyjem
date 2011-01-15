@@ -16,7 +16,7 @@
 			catch (e:Error)
 			{
 			}
-			trace("force garbage collection");
+			//trace("force garbage collection");
 		}
 	}
 	

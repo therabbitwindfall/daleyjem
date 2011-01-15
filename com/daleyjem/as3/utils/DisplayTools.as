@@ -34,7 +34,7 @@
 			sprite.graphics.drawRect(0, 0, sprite.width, sprite.height);
 		}
 		
-		public static function removeChildrenByType(object:DisplayObjectContainer, definitionName:String):void
+		public static function removeChildrenByType(object:DisplayObjectContainer, definitionName:String, callforward:Function = null, nullifyOnRemove:Boolean = false):void
 		{
 			var items:Array = new Array();
 			var childCount:uint = object.numChildren;
@@ -45,7 +45,9 @@
 			}
 			for each (var item:DisplayObject in items)
 			{
+				if (callforward != null) callforward(item);
 				object.removeChild(item);
+				if (nullifyOnRemove) item = null;
 			}
 		}
 		

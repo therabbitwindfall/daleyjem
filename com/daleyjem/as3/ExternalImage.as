@@ -208,7 +208,6 @@
 		{
 			dispose();
 			dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
-			trace("Cannot load image at path: \"" + imgPath + "\"");
 		}
 		
 		private function drawBorder():void

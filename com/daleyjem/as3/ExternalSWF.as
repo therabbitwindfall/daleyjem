@@ -12,6 +12,8 @@
 	public class ExternalSWF extends Sprite
 	{
 		public var content:MovieClip;
+		public var props:Object = new Object();
+		public var isLoaded:Boolean = false;
 		
 		private var loader:Loader;
 		private var _origWidth:Number = 0;
@@ -70,6 +72,7 @@
 				loader.mask = canvasMask;
 			}
 			
+			isLoaded = true;
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 	}

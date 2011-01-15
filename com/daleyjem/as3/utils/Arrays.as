@@ -36,22 +36,23 @@
 			return newArray;
 		}
 		
-		public static function sortOnKey(array:Object, key:String):Array
+		public static function sortOnKey(array:Object, key:String, prependZeros:Boolean = false, numZeros:int = 0):Array
 		{
 			var count:uint = array.length;
 			var newArray:Array = new Array();
 			for (var objIndex:uint = 0; objIndex < count; objIndex++)
 			{
 				var newItem:Array;
-				if (typeof(array[objIndex][key]) == "number")
+
+				if (prependZeros)
 				{
-					newItem = new Array(String2.prependCharacter(String(array[objIndex][key]), 9, "0"), array[objIndex]);
+					newItem = new Array(String2.prependCharacter(String(array[objIndex][key]), numZeros, "0"), array[objIndex]);
 				}
 				else
 				{
 					newItem = new Array(array[objIndex][key], array[objIndex]);
 				}
-				if (typeof(array[objIndex][key]) == "number");
+				
 				newArray.push(newItem);
 			}
 			newArray = newArray.sort();
