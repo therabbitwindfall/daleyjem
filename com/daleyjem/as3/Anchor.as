@@ -34,7 +34,7 @@
 		 * @param	objHorizontalAlignment	<String> [com.daleyjem.as3.HorizontalAlignment]
 		 * @param	objVerticalAlignment	<String> [com.daleyjem.as3.VerticalAlignment]
 		 */
-		public function Anchor(obj:DisplayObject, ref:DisplayObject, objMargin:Margin = null, objHorizontalAlignment:String = "", objVerticalAlignment:String = ""):void
+		public function Anchor(obj:DisplayObject, ref:DisplayObject, objMargin:Margin = null, objHorizontalAlignment:String = null, objVerticalAlignment:String = null):void
 		{
 			_margin = (objMargin != null) ? (objMargin) : (new Margin());
 			_horizontalAlignment = (objHorizontalAlignment != "") ? (objHorizontalAlignment) : (HorizontalAlignment.CENTER);
