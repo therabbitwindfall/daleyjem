@@ -28,7 +28,7 @@ package com.daleyjem.as3.net
 		 * @param	apiKey	<String> API key for api.ipinfodb.com service
 		 * @link	http://api.ipinfodb.com
 		 */
-		public function GeoIP(apiKey:String = "5d7d1322f912bbca635fb9ab3c51385f32e73392e9c44a1d6fe2a61cbf633a61"):void
+		public function GeoIP(apiKey:String):void
 		{
 			geoIPServiceURL += apiKey;
 			urlLoader = new URLLoader();
@@ -40,7 +40,7 @@ package com.daleyjem.as3.net
 			var append:String = "";
 			if (ipAddress != null)
 			{
-				append += "?ip=" + ipAddress;
+				append += "&ip=" + ipAddress;
 			}
 			urlLoader.load(new URLRequest(geoIPServiceURL + append));
 		}
