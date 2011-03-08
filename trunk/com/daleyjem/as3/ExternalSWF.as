@@ -5,13 +5,14 @@
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	import flash.display.Loader;
 	
 	public class ExternalSWF extends Sprite
 	{
-		public var content:MovieClip;
+		public var content:Object;
 		public var props:Object = new Object();
 		public var isLoaded:Boolean = false;
 		
@@ -27,8 +28,14 @@
 			
 			loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onSWFLoaded);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
 			loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, onLoadProgress);
 			loader.load(new URLRequest(swfPath));
+		}
+		
+		public function getObjectByName(objName:String):*
+		{
+			
 		}
 		
 		/**
@@ -47,6 +54,11 @@
 			return _origHeight;
 		}
 		
+		private function onIOError(e:IOErrorEvent):void 
+		{
+			trace("ExternalSWF: IO Error");
+		}
+		
 		private function onLoadProgress(e:ProgressEvent):void 
 		{
 			dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, e.bytesLoaded, e.bytesTotal));
@@ -54,12 +66,14 @@
 		
 		private function onSWFLoaded(e:Event):void 
 		{
+			
+			trace("ExternalSWF: SWF Loaded");
 			var info:LoaderInfo = e.target as LoaderInfo;
 			_origWidth = info.width;
 			_origHeight = info.height;
 
 			var loader:Loader = info.loader;
-			content = loader.content as MovieClip;
+			content = loader.content as Object;
 			addChild(loader);
 			
 			if (_maskBounds)

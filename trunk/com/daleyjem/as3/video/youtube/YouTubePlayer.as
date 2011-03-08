@@ -43,6 +43,12 @@ package com.daleyjem.as3.video.youtube
 			player = loader.content;
 			player.addEventListener("onReady", onYoutubeReady);
 			player.addEventListener("onStateChange", onYoutubePlaystateChange);
+			player.addEventListener("onError", onYoutubeError);
+		}
+		
+		private function onYoutubeError(e:Event):void 
+		{
+			trace("youtube error");
 		}
 		
 		private function onYoutubePlaystateChange(e:Event):void 
