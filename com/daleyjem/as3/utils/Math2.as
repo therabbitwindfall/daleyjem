@@ -19,5 +19,23 @@ package com.daleyjem.as3.utils
 			var val:Number = (Math.random() * (to - from)) + from;
 			return (round) ? (Math.round(val)) : (val);
 		}
+		
+		public static function closestTo(haystack:Array, needle:Number):Number
+		{
+			var currDistance:Number = -1;
+			var worthy:Number;
+			
+			for each (var haystackItem:Number in haystack)
+			{
+				var dist:Number = Math.abs(needle - haystackItem);
+				if (dist < currDistance || currDistance < 0)
+				{
+					worthy = haystackItem;
+					currDistance = dist;
+				}
+			}
+			
+			return worthy;
+		}
 	}
 }
