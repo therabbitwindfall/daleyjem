@@ -9,11 +9,7 @@
 		public var id:String;
 		public var description:String;
 		public var author:String;
-		public var thumbnails:Array;
-		public var authorURL:String;
-		public var pageURL:String;
-		public var publishDate:Date;
-		public var updateDate:Date;
+		public var thumbnails:Array = new Array();
 		
 		public function YouTubeSearchResult(entryNode:XML):void
 		{
@@ -22,6 +18,10 @@
 			title = entryNode.atomNS::title[0];
 			author = entryNode.atomNS::author.atomNS::name[0];
 			description = entryNode..mediaNS::description[0];
+			for each (var thumbnailNode:XML in entryNode..mediaNS::thumbnail)
+			{
+				thumbnails.push(thumbnailNode.@url);
+			}
 		}
 	}	
 }

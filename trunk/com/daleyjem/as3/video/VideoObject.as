@@ -29,8 +29,13 @@
 	[Event(name = "bufferStart", type = "com.daleyjem.as3.video.VideoObjectEvent")]
 	[Event(name = "bufferComplete", type = "com.daleyjem.as3.video.VideoObjectEvent")]
 	[Event(name = "metaDataReady", type = "com.daleyjem.as3.video.VideoObjectEvent")]
+	[Event(name = "progress", type = "flash.events.ProgressEvent")]
 	public class VideoObject extends Sprite
 	{
+		/**
+		 * Is the file being played from a streaming server.
+		 */
+		public var isStreaming:Boolean = false;
 		/**
 		 * The total number of seconds available in the buffer
 		 */
@@ -175,12 +180,14 @@
 			
 			if (tempUri.isRTMP)
 			{
+				isStreaming = true;
 				ncTest = new NCTest(tempUri);
 				ncTest.addEventListener(ErrorEvent.ERROR, onConnectionFail);
 				ncTest.addEventListener(Event.CONNECT, onConnectionSuccess);
 			}
 			else
 			{
+				isStreaming = false;
 				prepareFLVPath(url);
 			}
 		}
@@ -351,6 +358,7 @@
 		
 		private function onEnterFrame(e:Event):void 
 		{
+			//if (!isStreaming) dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, netStream.bytesLoaded, netStream.bytesTotal));
 			//trace(netStream.bufferLength);
 			time = netStream.time;
 			bufferLength = netStream.bufferLength;

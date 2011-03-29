@@ -4,6 +4,26 @@
 	
 	public final class Arrays
 	{
+		/**
+		 * Mimics PHP print_r function.
+		 * @param	obj		<Object> Array object
+		 * @param	indent	<String> Initial indent
+		 */
+		public static function print_r(obj:Object, indent:String = ""):void
+		{
+			var out:String = "";
+			
+			for (var item:* in obj)
+			{
+				if (typeof(obj[item]) == "object") out += indent + "[" + item + "] => Object\n";
+				else out += indent + "[" + item + "] => " + obj[item] + "\n";
+				out += print_r(obj[item], indent + "   ");
+			}
+
+			trace(out);
+		}
+		
+		
 		public static function search(haystackArray:Array, needle:Object):Boolean
 		{
 			for each (var object:Object in haystackArray)

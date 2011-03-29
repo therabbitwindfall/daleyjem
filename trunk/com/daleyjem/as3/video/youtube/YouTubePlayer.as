@@ -38,6 +38,11 @@ package com.daleyjem.as3.video.youtube
 			addChild(loader);
 		}
 		
+		public function close():void
+		{
+			player.destroy();
+		}
+		
 		private function onLoaderInit(e:Event):void 
 		{
 			player = loader.content;
