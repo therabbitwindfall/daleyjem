@@ -28,7 +28,10 @@ package com.daleyjem.as3.ui.nonflex
 		
 		public function GenericButton(buttonLabel:String = "Click"):void
 		{
-			_label = buttonLabel;			
+			buttonMode = true;
+			mouseChildren = false;
+			
+			_label = buttonLabel;
 			
 			bg = new Sprite();
 			bg.graphics.beginFill(0xffffff, 1);
@@ -45,9 +48,8 @@ package com.daleyjem.as3.ui.nonflex
 			shadowFilter.blurX = shadowFilter.blurY = shadowFilter.distance = 5;
 			shadowFilter.alpha = 0.4;
 			
-			buttonMode = true;
-			mouseChildren = false;
 			filters = [bevelFilter, glowFilter, shadowFilter];
+			
 			addChild(bg);
 			
 			addEventListener(MouseEvent.ROLL_OVER, onRollOver);
@@ -91,6 +93,7 @@ package com.daleyjem.as3.ui.nonflex
 
 		private function onRollOut(e:MouseEvent):void 
 		{
+			trace("roll out");
 			bevelFilter.angle = 90;
 		}
 		
