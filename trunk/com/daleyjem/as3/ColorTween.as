@@ -101,9 +101,9 @@
 		private static function HexToRGB(hex:Number):Array
 		{
 			var newHex:Array = new Array();
-			newHex.r = hex >> 16;
-			newHex.g = (hex ^ hex >> 16 << 16) >> 8;
-			newHex.b = hex >> 8 << 8 ^ hex;
+			newHex.r = (hex & 0xff0000) >> 16;
+			newHex.g = (hex & 0x00ff00) >> 8;
+			newHex.b = hex & 0x0000ff;
 			return newHex;
 		}
 		

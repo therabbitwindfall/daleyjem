@@ -1,4 +1,4 @@
-﻿package com.daleyjem.as3
+package com.daleyjem.as3
 {
 	import flash.display.DisplayObject;
 	import flash.display.LoaderInfo;
@@ -9,6 +9,7 @@
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	import flash.display.Loader;
+	import flash.system.ApplicationDomain;
 	
 	public class ExternalSWF extends Sprite
 	{
@@ -21,6 +22,7 @@
 		private var _origHeight:Number = 0;
 		private var canvasMask:Sprite;
 		private var _maskBounds:Boolean;
+		private var domain:ApplicationDomain;
 		
 		public function ExternalSWF(swfPath:String, maskBounds:Boolean = true):void
 		{
@@ -33,9 +35,14 @@
 			loader.load(new URLRequest(swfPath));
 		}
 		
-		public function getObjectByName(objName:String):*
+		/**
+		 * Gets the <Class> reference to an object in the SWF's library.
+		 * @param	className	<String> The definition name as it exists in the SWF's library.
+		 * @return	<Class>
+		 */
+		public function getClassByName(className:String):Class
 		{
-			
+			return domain.getDefinition(className) as Class;
 		}
 		
 		/**
@@ -56,7 +63,7 @@
 		
 		private function onIOError(e:IOErrorEvent):void 
 		{
-			trace("ExternalSWF: IO Error");
+			dispatchEvent(new IOErrorEvent(IOErrorEvent.IO_ERROR));
 		}
 		
 		private function onLoadProgress(e:ProgressEvent):void 
@@ -66,12 +73,12 @@
 		
 		private function onSWFLoaded(e:Event):void 
 		{
-			
-			trace("ExternalSWF: SWF Loaded");
+			//trace("ExternalSWF: SWF Loaded");
 			var info:LoaderInfo = e.target as LoaderInfo;
 			_origWidth = info.width;
 			_origHeight = info.height;
-
+			domain = info.applicationDomain;
+			
 			var loader:Loader = info.loader;
 			content = loader.content as Object;
 			addChild(loader);
