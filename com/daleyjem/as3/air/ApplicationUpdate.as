@@ -8,6 +8,7 @@
 	import flash.desktop.Updater;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
+	import flash.net.navigateToURL;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLStream;
@@ -87,11 +88,16 @@
 				updater.update(localFile, version.major + "." + version.minor); // + "." + version.build + "." + version.revision);
 				NativeApplication.nativeApplication.exit();
 			}
-			catch (e)
+			catch (e:Error)
 			{
 				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "May be testing locally"));
 				NativeApplication.nativeApplication.exit();
 			}
+		}
+		
+		public function navigateToUpdate():void
+		{
+			navigateToURL(new URLRequest(updatedAppFileURL), "_self");
 		}
 		
 		private function onIOError(e:IOErrorEvent):void 
@@ -114,11 +120,9 @@
 			var appXML:XML = NativeApplication.nativeApplication.applicationDescriptor;
 			var ns:Namespace = appXML.namespace();
 			var currVersion:String = appXML.ns::version;
-
-			if (version.isGreaterThan(new ApplicationVersion(currVersion)))
-			{
-				hasUpdate = true;
-			}
+			
+			if (currVersion == null || currVersion == "") currVersion = appXML.ns::versionNumber;
+			if (version.isGreaterThan(new ApplicationVersion(currVersion))) hasUpdate = true;
 
 			currentVersion = new ApplicationVersion(currVersion);
 			dispatchEvent(new ApplicationUpdateEvent(ApplicationUpdateEvent.UPDATE_CHECK_COMPLETE));
