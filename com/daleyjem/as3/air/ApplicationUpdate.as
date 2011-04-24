@@ -22,13 +22,15 @@
 	 * Update file should follow this syntax:
 	 * 		<?xml version="1.0" encoding="utf-8"?>
 	 *		<update>
-	 *			<version>1.1</update>
+	 *			<version>1.1</version>
+	 *			<url>http://www.daleyjem.com/apps/air/NonFlexStartupTest.apk</url>
 	 *			<changelog>
 	 *				<change>Started testing.</change>
 	 *			</changelog>
 	 *		</update>
 	 * @author	Jeremy Daley
 	 */
+	[Event(name = "updateCheckComplete",	type = "com.daleyjem.as3.air.ApplicationUpdateEvent")]
 	public class ApplicationUpdate extends EventDispatcher
 	{
 		private var _uri:String;
