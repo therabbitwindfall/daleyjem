@@ -123,6 +123,7 @@ package com.daleyjem.as3.ui.nonflex
 		{
 			var newFontSize:Number = bg.height * FONT_SIZE_RATIO;
 			txtLabel.setTextFormat(new TextFormat(DEFAULT_FONT, newFontSize));
+			bg.width = txtLabel.width + (MIN_HORIZ_PADDING * 2)
 			txtLabel.x = (bg.width / 2) - (txtLabel.textWidth / 2);
 			txtLabel.y = (bg.height / 2) - (txtLabel.textHeight / 2);
 		}
