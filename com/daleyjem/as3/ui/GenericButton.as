@@ -1,4 +1,4 @@
-package com.daleyjem.as3.ui.nonflex
+package com.daleyjem.as3.ui
 {
 	import flash.display.MovieClip;
 	import flash.events.Event;
