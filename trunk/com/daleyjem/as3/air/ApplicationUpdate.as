@@ -81,25 +81,32 @@
 		 * Pulls down remote file to specified local <File> object
 		 * @param	localFile	<File> Local file object to put installer update
 		 */
-		public function runUpdate(localFile:File):void 
+		public function runUpdate(localFile:File, bypassAutoExit:Boolean = false):void 
 		{
 			updater =  new Updater();
 			
 			try
 			{
 				updater.update(localFile, version.major + "." + version.minor); // + "." + version.build + "." + version.revision);
-				NativeApplication.nativeApplication.exit();
+				if (!bypassAutoExit) NativeApplication.nativeApplication.exit();
 			}
 			catch (e:Error)
 			{
-				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "May be testing locally"));
-				NativeApplication.nativeApplication.exit();
+				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "runUpdate: " + e.message));
+				if (!bypassAutoExit) NativeApplication.nativeApplication.exit();
 			}
 		}
 		
 		public function navigateToUpdate():void
 		{
-			navigateToURL(new URLRequest(updatedAppFileURL), "_self");
+			try
+			{
+				navigateToURL(new URLRequest(updatedAppFileURL), "_self");
+			}
+			catch (e:Error)
+			{
+				dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, "navigateToUpdate: " + e.message));
+			}
 		}
 		
 		private function onIOError(e:IOErrorEvent):void 
