@@ -65,7 +65,14 @@
 			dropDownList.open(parentApplication as DisplayObjectContainer, true);
 			if (selectedIndex > -1) dropDownList.selectionItems.selectedIndex = selectedIndex;
 			
-			FlexGlobals.topLevelApplication.popUp = dropDownList;
+			try
+			{
+				FlexGlobals.topLevelApplication.popUp = dropDownList;
+			}
+			catch (e:Object)
+			{
+				// Do nothing
+			}
 		}
 		
 		public function get label():String
@@ -92,6 +99,15 @@
 		
 		private function onDropDownListClose(e:PopUpEvent):void 
 		{
+			try
+			{
+				FlexGlobals.topLevelApplication.popUp = null;
+			}
+			catch (e:Object)
+			{
+				// Do nothing
+			}
+			
 			selectedIndex = dropDownList.selectionItems.selectedIndex;
 		}
 		]]>

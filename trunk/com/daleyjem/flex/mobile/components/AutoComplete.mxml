@@ -49,12 +49,22 @@
 		
 		private function onPopupClosed(e:PopUpEvent):void 
 		{
+			try
+			{
+				FlexGlobals.topLevelApplication.popUp = null;
+			}
+			catch (e:Object)
+			{
+				// Do nothing
+			}
+			
 			if (e.data != null) txtInput.text = e.data;
 			txtInput.selectRange(txtInput.text.length, txtInput.text.length);
 		}
 		
 		private function onChange():void
 		{
+			if (autoCompleteList == null) onFocus();
 			if (txtInput.text.length == 0 || dataProvider == null)
 			{
 				autoCompleteList.selectionItems.dataProvider = null;
