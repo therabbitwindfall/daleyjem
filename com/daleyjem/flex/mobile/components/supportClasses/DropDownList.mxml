@@ -38,7 +38,7 @@
 			</s:HGroup>
 		</s:Group>
 		<!-- Selection list -->
-		<s:List id="selectionItems" width="100%" height="100%" contentBackgroundAlpha="0" useVirtualLayout="false" click="onListItemSelect()" itemRenderer="com.daleyjem.flex.mobile.renderers.DropDownListItemRenderer">
+		<s:List id="selectionItems" width="100%" height="100%" contentBackgroundAlpha="0" useVirtualLayout="false" click="onListItemSelect()" itemRenderer="com.daleyjem.flex.mobile.renderers.DropDownListItemRenderer" updateComplete="onDataChanged()">
 			<s:layout>
 				<s:VerticalLayout id="listLayout" gap="0" horizontalAlign="justify" />
 			</s:layout>
@@ -55,6 +55,13 @@
 		private function onListItemSelect():void
 		{
 			close(false, selectionItems.selectedItem);
+		}
+		
+		private function onDataChanged():void
+		{
+			if (selectionItems.dataProvider == null) return;
+			var numRecords:int = selectionItems.dataProvider.length;
+			listLayout.requestedRowCount = (numRecords > MAX_ROWS) ? (MAX_ROWS) : (numRecords);
 		}
 		]]>
 	</fx:Script>
