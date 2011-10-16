@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+         xmlns:s="library://ns.adobe.com/flex/spark" click="onClick()" initialize="init()">
+		 
+	<s:Rect width="100%" height="100%" radiusX="10" radiusY="10">
+		<s:filters>
+			<s:DropShadowFilter inner="true" angle="270" distance="15" blurX="5" blurY="25" alpha="0.15" />
+		</s:filters>
+		<s:fill>
+			<s:SolidColor color="#eeeeee" />
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#000000" alpha="0.25" />
+		</s:stroke>
+	</s:Rect>
+	<s:HGroup width="100%" height="100%" gap="0">
+		<s:HGroup width="100%" paddingTop="20" paddingBottom="20" paddingLeft="20" paddingRight="20">
+			<s:Label id="txtLabel" color="#000000" width="100%" />
+		</s:HGroup>
+		<s:HGroup height="100%" paddingTop="1" paddingBottom="1" gap="0">
+			<s:Rect width="1" height="100%">
+				<s:fill>
+					<s:SolidColor color="#000000" alpha="0.25" />
+				</s:fill>
+			</s:Rect>
+			<s:Rect width="1" height="100%">
+				<s:fill>
+					<s:SolidColor color="#ffffff" />
+				</s:fill>
+			</s:Rect>
+		</s:HGroup>
+		<s:HGroup height="100%" paddingLeft="20" paddingRight="20" verticalAlign="middle">
+			<s:Path data="L 10 10 L 20 0 L 0 0 Z">
+				<s:fill>
+					<s:SolidColor color="#000000" alpha="0.5" />
+				</s:fill>
+			</s:Path>
+		</s:HGroup>
+	</s:HGroup>
+	<fx:Script>
+		<![CDATA[
+		import com.daleyjem.mobile.ar.DropDownList;
+		import flash.display.DisplayObjectContainer;
+		import mx.collections.ArrayList;
+		import mx.core.FlexGlobals;
+		import spark.events.PopUpEvent;
+		
+		public var dataProvider:ArrayList;
+		
+		private var dropDownList:DropDownList;
+		private var _selectedIndex:int = -1;
+		
+		private function init():void
+		{
+			selectedIndex = selectedIndex;
+		}
+		
+		private function onClick():void
+		{
+			if (dropDownList == null) dropDownList = new DropDownList();
+			dropDownList.addEventListener(PopUpEvent.CLOSE, onDropDownListClose);
+			dropDownList.initialize();
+			dropDownList.titleDisplay.text = (label.length > 0) ? (label) : ("Choose:");
+			dropDownList.selectionItems.dataProvider = dataProvider;
+			dropDownList.open(parentApplication as DisplayObjectContainer, true);
+			if (selectedIndex > -1) dropDownList.selectionItems.selectedIndex = selectedIndex;
+			
+			FlexGlobals.topLevelApplication.popUp = dropDownList;
+		}
+		
+		public function get label():String
+		{
+			return txtLabel.text;
+		}
+		public function set label(value:String):void
+		{
+			txtLabel.text = value;
+		}
+		
+		public function get selectedIndex():int
+		{
+			return _selectedIndex;
+		}
+		public function set selectedIndex(value:int):void
+		{
+			_selectedIndex = value;
+			if (dataProvider != null && _selectedIndex > -1)
+			{
+				txtLabel.text = String(dataProvider.getItemAt(_selectedIndex));
+			}
+		}
+		
+		private function onDropDownListClose(e:PopUpEvent):void 
+		{
+			selectedIndex = dropDownList.selectionItems.selectedIndex;
+		}
+		]]>
+	</fx:Script>
+</s:Group>
