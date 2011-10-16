@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnablePopUpContainer xmlns:s="library://ns.adobe.com/flex/spark"
 						   xmlns:fx="http://ns.adobe.com/mxml/2009"
-						   xmlns:local="com.daleyjem.mobile.ar.layouts.*"
+						   xmlns:local="com.daleyjem.flex.mobile.layouts.*"
 						   skinClass="com.daleyjem.flex.mobile.skins.AutoCompleteListSkin" contentBackgroundAlpha="0">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -15,10 +15,9 @@
         <s:State name="upwards" />
     </s:states>
 	
-	<!-- Inside containing rounded rect -->
 	<s:VGroup width="100%" height="100%" verticalAlign="bottom">
 		<!-- Selection list -->
-		<s:List id="selectionItems" width="100%" height="100%" useVirtualLayout="false" click="onListItemSelect()">
+		<s:List id="selectionItems" width="100%" height="100%" useVirtualLayout="false" click="onListItemSelect()" updateComplete="onDataUpdated()">
 			<s:layout>
 				<s:VerticalLayout gap="0" horizontalAlign="justify" />
 			</s:layout>
@@ -30,9 +29,21 @@
 	
 	<fx:Script>
 		<![CDATA[
+		import com.daleyjem.flex.mobile.layouts.UpwardsLayout;
+		import spark.layouts.VerticalLayout;
+		
 		private function onListItemSelect():void
 		{
 			close(false, selectionItems.selectedItem);
+		}
+		
+		public function onDataUpdated():void
+		{
+			if (selectionItems.dataProvider == null) return;
+			if (currentState == "upwards")
+			{
+				(selectionItems.layout as UpwardsLayout).verticalScrollPosition = selectionItems.dataGroup.getElementAt(0).height;
+			}
 		}
 		]]>
 	</fx:Script>

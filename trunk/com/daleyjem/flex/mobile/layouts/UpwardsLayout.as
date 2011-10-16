@@ -9,7 +9,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-package com.daleyjem.mobile.ar.layouts
+package com.daleyjem.flex.mobile.layouts
 {
 import flash.events.Event;
 import flash.geom.Point;
@@ -270,6 +270,7 @@ public class UpwardsLayout extends LayoutBase
      */
     private function setRowCount(value:int):void
     {
+		trace("set row count");
         if (_rowCount == value)
             return;
         var oldValue:int = _rowCount;
@@ -917,6 +918,7 @@ public class UpwardsLayout extends LayoutBase
      */
     public function fractionOfElementInView(index:int):Number 
     {
+		trace("fractionOfElementInView");
         var g:GroupBase = GroupBase(target);
         if (!g)
             return 0.0;
@@ -1361,6 +1363,7 @@ public class UpwardsLayout extends LayoutBase
      */
     private function updateLLV(layoutTarget:GroupBase):void
     {
+		trace("updateLLV");
         if (!llv)
         {
             llv = new LinearLayoutVector();
@@ -1543,6 +1546,7 @@ public class UpwardsLayout extends LayoutBase
      */  
     override public function getNavigationDestinationIndex(currentIndex:int, navigationUnit:uint, arrowKeysWrapFocus:Boolean):int
     {
+		trace("getNavigationDestinationIndex");
         if (!target || target.numElements < 1)
             return -1; 
 
@@ -1763,6 +1767,7 @@ public class UpwardsLayout extends LayoutBase
      */
     private function updateDisplayListVirtual():void
     {
+		trace("updateDisplayListVirtual");
         var layoutTarget:GroupBase = target; 
         var eltCount:int = layoutTarget.numElements;
         var targetWidth:Number = Math.max(0, layoutTarget.width - paddingLeft - paddingRight);
@@ -1882,6 +1887,7 @@ public class UpwardsLayout extends LayoutBase
      */
     private function updateDisplayListReal():void
     {
+		trace("updateDisplayListReal");
         var layoutTarget:GroupBase = target;
         var targetWidth:Number = Math.max(0, layoutTarget.width - paddingLeft - paddingRight);
         var targetHeight:Number = Math.max(0, layoutTarget.height - paddingTop - paddingBottom);
@@ -1932,7 +1938,7 @@ public class UpwardsLayout extends LayoutBase
         // visible indices, the content size, and the number of 
         // visible elements.    
         var x0:Number = paddingLeft;
-        var y:Number = paddingTop;
+        var y:Number = targetHeight; // paddingTop;
         var maxX:Number = paddingLeft;
         var maxY:Number = paddingTop;
         var firstRowInView:int = -1;
@@ -1952,7 +1958,7 @@ public class UpwardsLayout extends LayoutBase
             }
         }
 
-        for (var index:int = count - 1; index >= 0; index--)
+        for (var index:int = 0; index < count; index++)
         {
             layoutElement = layoutTarget.getElementAt(index);
             if (!layoutElement || !layoutElement.includeInLayout)
@@ -1981,7 +1987,11 @@ public class UpwardsLayout extends LayoutBase
                 else
                    lastRowInView = index;
             }
-            y += dy + gap;
+			
+			// Needs to be justified from bottom of list
+			
+			y -= dy + gap;
+            //y += dy + gap;
         }
         
         setRowCount(visibleRows);
@@ -1991,10 +2001,8 @@ public class UpwardsLayout extends LayoutBase
         // the content size includes the whole pixel.
         layoutTarget.setContentSize(Math.ceil(maxX + paddingRight),
                                     Math.ceil(maxY + paddingBottom));
-									
-		layoutTarget.verticalScrollPosition = maxY;
     }
-    
+	
     /**
      *  @private
      * 
@@ -2013,6 +2021,7 @@ public class UpwardsLayout extends LayoutBase
                                       height:Number, 
                                       restrictedWidth:Number):Number
     {
+		trace("distributeHeight");
         var spaceToDistribute:Number = height;
         var totalPercentHeight:Number = 0;
         var childInfoArray:Array = [];
@@ -2089,6 +2098,7 @@ public class UpwardsLayout extends LayoutBase
      */
     override public function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
+		trace("updateDisplayList");
         super.updateDisplayList(unscaledWidth, unscaledHeight);
         
         var layoutTarget:GroupBase = target; 
