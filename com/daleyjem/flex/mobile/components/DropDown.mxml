@@ -39,7 +39,7 @@
 	</s:HGroup>
 	<fx:Script>
 		<![CDATA[
-		import com.daleyjem.mobile.ar.DropDownList;
+		import com.daleyjem.flex.mobile.components.supportClasses.DropDownList;
 		import flash.display.DisplayObjectContainer;
 		import mx.collections.ArrayList;
 		import mx.core.FlexGlobals;

@@ -12,6 +12,7 @@
 		import mx.core.FlexGlobals;
 		import mx.managers.PopUpManager;
 		import spark.events.PopUpEvent;
+		import com.daleyjem.flex.mobile.components.supportClasses.AutoCompleteList;
 		
 		public var dataProvider:ArrayList;
 		public var estimatedKeyboardTopPercentage:Number = 0.5;
@@ -44,7 +45,14 @@
 			}
 			autoCompleteList.open(parentApplication as DisplayObjectContainer, false);
 			
-			FlexGlobals.topLevelApplication.popUp = autoCompleteList;
+			try
+			{
+				FlexGlobals.topLevelApplication.popUp = autoCompleteList;
+			}
+			catch (e:Object)
+			{
+				// Do nothing
+			}
 		}
 		
 		private function onPopupClosed(e:PopUpEvent):void 
