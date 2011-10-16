@@ -28,7 +28,6 @@
 			autoCompleteList = new AutoCompleteList();
 			autoCompleteList.addEventListener(PopUpEvent.CLOSE, onPopupClosed);
 			autoCompleteList.initialize();
-			//if (dataProvider != null) autoCompleteList.selectionItems.dataProvider = dataProvider;
 			
 			var thisTop:Number = this.localToGlobal(new Point()).y;
 			var keyboardTop:Number = (stage.height * estimatedKeyboardTopPercentage);
@@ -59,14 +58,9 @@
 			txtInput.selectRange(txtInput.text.length, txtInput.text.length);
 		}
 		
-		private function onBlur():void
-		{
-			//autoCompleteList.close();
-		}
-		
 		private function onChange():void
 		{
-			if (txtInput.text.length == 0)
+			if (txtInput.text.length == 0 || dataProvider == null)
 			{
 				autoCompleteList.selectionItems.dataProvider = null;
 				return;
