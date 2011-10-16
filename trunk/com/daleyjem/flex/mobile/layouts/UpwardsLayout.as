@@ -270,7 +270,6 @@ public class UpwardsLayout extends LayoutBase
      */
     private function setRowCount(value:int):void
     {
-		trace("set row count");
         if (_rowCount == value)
             return;
         var oldValue:int = _rowCount;
@@ -918,7 +917,6 @@ public class UpwardsLayout extends LayoutBase
      */
     public function fractionOfElementInView(index:int):Number 
     {
-		trace("fractionOfElementInView");
         var g:GroupBase = GroupBase(target);
         if (!g)
             return 0.0;
@@ -1363,7 +1361,6 @@ public class UpwardsLayout extends LayoutBase
      */
     private function updateLLV(layoutTarget:GroupBase):void
     {
-		trace("updateLLV");
         if (!llv)
         {
             llv = new LinearLayoutVector();
@@ -1546,7 +1543,6 @@ public class UpwardsLayout extends LayoutBase
      */  
     override public function getNavigationDestinationIndex(currentIndex:int, navigationUnit:uint, arrowKeysWrapFocus:Boolean):int
     {
-		trace("getNavigationDestinationIndex");
         if (!target || target.numElements < 1)
             return -1; 
 
@@ -1767,7 +1763,6 @@ public class UpwardsLayout extends LayoutBase
      */
     private function updateDisplayListVirtual():void
     {
-		trace("updateDisplayListVirtual");
         var layoutTarget:GroupBase = target; 
         var eltCount:int = layoutTarget.numElements;
         var targetWidth:Number = Math.max(0, layoutTarget.width - paddingLeft - paddingRight);
@@ -1887,7 +1882,6 @@ public class UpwardsLayout extends LayoutBase
      */
     private function updateDisplayListReal():void
     {
-		trace("updateDisplayListReal");
         var layoutTarget:GroupBase = target;
         var targetWidth:Number = Math.max(0, layoutTarget.width - paddingLeft - paddingRight);
         var targetHeight:Number = Math.max(0, layoutTarget.height - paddingTop - paddingBottom);
@@ -2021,7 +2015,6 @@ public class UpwardsLayout extends LayoutBase
                                       height:Number, 
                                       restrictedWidth:Number):Number
     {
-		trace("distributeHeight");
         var spaceToDistribute:Number = height;
         var totalPercentHeight:Number = 0;
         var childInfoArray:Array = [];
@@ -2098,7 +2091,6 @@ public class UpwardsLayout extends LayoutBase
      */
     override public function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
-		trace("updateDisplayList");
         super.updateDisplayList(unscaledWidth, unscaledHeight);
         
         var layoutTarget:GroupBase = target; 
