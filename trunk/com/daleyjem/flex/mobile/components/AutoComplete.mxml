@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" initialize="init()">
+			   
+	<s:TextInput id="txtInput" width="100%" focusAlpha="0" click="onFocus()" change="onChange()" />
+		
+	<fx:Script>
+		<![CDATA[
+		import flash.display.DisplayObjectContainer;
+		import flash.geom.Point;
+		import mx.collections.ArrayList;
+		import mx.core.FlexGlobals;
+		import mx.managers.PopUpManager;
+		import spark.events.PopUpEvent;
+		
+		public var dataProvider:ArrayList;
+		public var estimatedKeyboardTopPercentage:Number = 0.5;
+		
+		private var autoCompleteList:AutoCompleteList;
+		
+		private function init():void
+		{
+			
+		}
+		
+		private function onFocus():void
+		{
+			autoCompleteList = new AutoCompleteList();
+			autoCompleteList.addEventListener(PopUpEvent.CLOSE, onPopupClosed);
+			autoCompleteList.initialize();
+			//if (dataProvider != null) autoCompleteList.selectionItems.dataProvider = dataProvider;
+			
+			var thisTop:Number = this.localToGlobal(new Point()).y;
+			var keyboardTop:Number = (stage.height * estimatedKeyboardTopPercentage);
+			var bottomSpace:Number = keyboardTop - (thisTop + this.height);
+			
+			autoCompleteList.width = txtInput.width;
+			autoCompleteList.x = this.localToGlobal(new Point()).x;
+			if (thisTop > bottomSpace)
+			{
+				autoCompleteList.setCurrentState("upwards");
+				autoCompleteList.y = 0;
+				autoCompleteList.maxHeight = thisTop;
+			}
+			else
+			{
+				autoCompleteList.setCurrentState("normal");
+				autoCompleteList.y = thisTop + height;
+				autoCompleteList.maxHeight = keyboardTop - (thisTop + height);
+			}
+			autoCompleteList.open(parentApplication as DisplayObjectContainer, false);
+			
+			FlexGlobals.topLevelApplication.popUp = autoCompleteList;
+		}
+		
+		private function onPopupClosed(e:PopUpEvent):void 
+		{
+			if (e.data != null) txtInput.text = e.data;
+			txtInput.selectRange(txtInput.text.length, txtInput.text.length);
+		}
+		
+		private function onBlur():void
+		{
+			//autoCompleteList.close();
+		}
+		
+		private function onChange():void
+		{
+			if (txtInput.text.length == 0)
+			{
+				autoCompleteList.selectionItems.dataProvider = null;
+				return;
+			}
+			autoCompleteList.selectionItems.dataProvider = new ArrayList();
+			for each (var item:String in dataProvider.toArray())
+			{
+				if (item.substr(0, txtInput.text.length).toLowerCase() == txtInput.text.toLowerCase()) autoCompleteList.selectionItems.dataProvider.addItem(item);
+			}
+		}
+		]]>
+	</fx:Script>
+</s:Group>

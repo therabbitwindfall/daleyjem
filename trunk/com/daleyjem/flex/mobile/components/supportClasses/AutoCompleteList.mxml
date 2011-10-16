@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer xmlns:s="library://ns.adobe.com/flex/spark"
+						   xmlns:fx="http://ns.adobe.com/mxml/2009"
+						   xmlns:local="com.daleyjem.mobile.ar.layouts.*"
+						   skinClass="com.daleyjem.mobile.ar.skins.AutoCompleteListSkin" contentBackgroundAlpha="0">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		* {fontSize:25; }
+		#selectionItems {color:#333333; }
+	</fx:Style>
+	
+	<s:states>
+        <s:State name="normal" />
+        <s:State name="upwards" />
+    </s:states>
+	
+	<!-- Inside containing rounded rect -->
+	<s:VGroup width="100%" height="100%" verticalAlign="bottom">
+		<!-- Selection list -->
+		<s:List id="selectionItems" width="100%" height="100%" useVirtualLayout="false" click="onListItemSelect()">
+			<s:layout>
+				<s:VerticalLayout gap="0" horizontalAlign="justify" />
+			</s:layout>
+			<s:layout.upwards>
+				<local:UpwardsLayout />
+			</s:layout.upwards>
+		</s:List>
+	</s:VGroup>
+
+
+	<fx:Declarations>
+		<!-- <fx:int id="MAX_ROWS">8</fx:int> -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+		private function onListItemSelect():void
+		{
+			close(false, selectionItems.selectedItem);
+		}
+		]]>
+	</fx:Script>
+</s:SkinnablePopUpContainer>

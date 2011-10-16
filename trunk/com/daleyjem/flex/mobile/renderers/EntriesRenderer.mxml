@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- containers\spark\myComponents\MySimpleCustomItemRenderer.mxml -->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" autoDrawBackground="false" mouseDown="onMouseDown()">	
+				
+    <s:states> 
+		<s:State name="original" />
+        <s:State name="alternate" />
+		<s:State name="active" />
+    </s:states> 
+	<s:creationComplete>
+		<![CDATA[
+		
+		if (data.type == "credit") this.setCurrentState("alternate");
+		else this.setCurrentState("original");
+		
+		originalState = this.currentState;
+		
+		]]>
+	</s:creationComplete>
+	
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color.original="#ffffff" color.alternate="#ccffcc" color.active="#eeeeee" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup width="100%" height="100%" gap="0">
+		<s:HGroup width="100%" height="100%" paddingTop="20" paddingBottom="20" paddingLeft="20" paddingRight="20" gap="0">
+			<s:Label id="lblVendor" width="100%" height="100%" text="{data.vendor}" />
+			<s:Label id="lblAmount" height="100%" text="$ {data.amount}" textAlign="right" />
+		</s:HGroup>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#666666" />
+			</s:stroke>
+		</s:Line>
+	</s:VGroup>
+	
+	<fx:Declarations>
+		<fx:String id="originalState" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+		import com.adobe.nativeExtensions.Vibration;
+		import com.daleyjem.mobile.ar.ApplicationEvent;
+		import flash.events.MouseEvent;
+		import flash.utils.clearTimeout;
+		import flash.utils.setTimeout;
+		
+		private var touchHoldTimer:Number;
+		private var vibration:Vibration;
+		
+		private static const TOUCH_HOLD_DURATION:int = 1000;
+		
+		private function onMouseDown():void
+		{
+			this.setCurrentState("active");
+
+			this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			this.addEventListener(MouseEvent.MOUSE_OUT, onMouseUp);
+			touchHoldTimer = setTimeout(onMouseHeld, TOUCH_HOLD_DURATION);
+		}
+		
+		private function onMouseUp(e:MouseEvent):void 
+		{
+			this.setCurrentState(originalState);
+			
+			this.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			this.removeEventListener(MouseEvent.MOUSE_OUT, onMouseUp);
+			clearTimeout(touchHoldTimer);
+		}
+		
+		private function onMouseHeld():void
+		{
+			if (Vibration.isSupported)
+			{
+				if (vibration == null) vibration = new Vibration();
+				vibration.vibrate(50);
+			}
+			this.setCurrentState(originalState);
+			
+			this.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			this.removeEventListener(MouseEvent.MOUSE_OUT, onMouseUp);
+			
+			dispatchEvent(new ApplicationEvent(ApplicationEvent.ENTRY_ITEM_MOUSE_HELD, true, true, data.entryID));
+		}
+		]]>
+	</fx:Script>
+</s:ItemRenderer>

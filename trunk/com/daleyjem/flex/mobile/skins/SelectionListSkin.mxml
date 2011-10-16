@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" initialize="init()">
+    
+    <fx:Metadata>
+    <![CDATA[ 
+        /** 
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("spark.components.SkinnablePopUpContainer")]
+    ]]>
+    </fx:Metadata> 
+    
+    <s:states>
+        <s:State name="normal"/>
+        <s:State name="disabled"/>
+        <s:State name="closed" />
+    </s:states>
+	
+    <!--- Defines the background and content group used by this skin. -->
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#000000" alpha="0.5" />
+		</s:fill>
+	</s:Rect>
+	<s:Group horizontalCenter="0" verticalCenter="0">
+		<!-- Containing rounded rect -->
+		<s:Rect id="mainContainer" radiusX="10" radiusY="10" width="100%" height="100%">
+			<s:filters>
+				<s:DropShadowFilter angle="90" alpha="0.25" />
+			</s:filters>
+			<s:stroke>
+				<s:SolidColorStroke color="#cccccc" />
+			</s:stroke>
+			<s:fill>
+				<s:SolidColor color="#ffffff" />
+			</s:fill>
+		</s:Rect>
+		
+		<!--- @copy spark.components.SkinnableContainer#contentGroup -->
+		<s:Group id="contentGroup" width="100%">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+		</s:Group>
+	</s:Group>
+	<fx:Script>
+		<![CDATA[
+		
+		private function init():void
+		{
+			mainContainer.width = stage.width * 0.9;
+			this.width = stage.width;
+			this.height = stage.height;
+		}
+		
+		]]>
+	</fx:Script>
+</s:Skin>

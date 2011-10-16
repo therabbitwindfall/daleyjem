@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- containers\spark\myComponents\MySimpleCustomItemRenderer.mxml -->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" autoDrawBackground="false">	
+				
+    <s:states>
+		<s:State name="normal" />
+		<s:State name="selected" />
+    </s:states>
+	
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="#ffffff" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:VGroup width="100%" height="100%" gap="0">
+		<s:HGroup width="100%" height="100%" paddingLeft="20" paddingRight="20" gap="0" verticalAlign="middle">
+			<s:HGroup width="100%" height="100%" paddingTop="20" paddingBottom="20">
+				<s:Label id="txtLabel" width="100%" height="100%" text="{data}" />
+			</s:HGroup>
+			<s:Group>
+				<s:Ellipse width="31" height="31">
+					<s:fill>
+						<s:SolidColor color="#ffffff" />
+					</s:fill>
+					<s:stroke>
+						<s:SolidColorStroke color="#000000" alpha="0.25" />
+					</s:stroke>
+					<s:filters>
+						<s:DropShadowFilter angle="270" distance="10" blurX="30" blurY="30" inner="true" alpha="0.15" />
+					</s:filters>
+				</s:Ellipse>
+				<s:Ellipse width="15" height="15" horizontalCenter="0" verticalCenter="0">
+					<s:fill>
+						<s:SolidColor color="#ffffff" color.selected="#00ff00" />
+					</s:fill>
+					<s:stroke>
+						<s:SolidColorStroke color="#000000" alpha="0.25" />
+					</s:stroke>
+					<s:filters>
+						<s:DropShadowFilter angle="90" angle.selected="270" distance="10" blurX="10" blurY="10" inner="true" alpha="0.15" />
+					</s:filters>
+				</s:Ellipse>
+			</s:Group>
+		</s:HGroup>
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="#666666" />
+			</s:stroke>
+		</s:Line>
+	</s:VGroup>
+</s:ItemRenderer>
