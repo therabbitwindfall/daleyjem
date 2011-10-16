@@ -2,7 +2,7 @@
 <s:SkinnablePopUpContainer xmlns:s="library://ns.adobe.com/flex/spark"
 						   xmlns:fx="http://ns.adobe.com/mxml/2009"
 						   xmlns:local="com.daleyjem.mobile.ar.layouts.*"
-						   skinClass="com.daleyjem.mobile.ar.skins.AutoCompleteListSkin" contentBackgroundAlpha="0">
+						   skinClass="com.daleyjem.flex.mobile.skins.AutoCompleteListSkin" contentBackgroundAlpha="0">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		
@@ -27,11 +27,6 @@
 			</s:layout.upwards>
 		</s:List>
 	</s:VGroup>
-
-
-	<fx:Declarations>
-		<!-- <fx:int id="MAX_ROWS">8</fx:int> -->
-	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[

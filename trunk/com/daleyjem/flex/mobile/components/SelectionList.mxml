@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnablePopUpContainer xmlns:s="library://ns.adobe.com/flex/spark"
-						   xmlns:fx="http://ns.adobe.com/mxml/2009" skinClass="com.daleyjem.mobile.ar.skins.SelectionListSkin">
+						   xmlns:fx="http://ns.adobe.com/mxml/2009" skinClass="com.daleyjem.flex.mobile.skins.SelectionListSkin">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		

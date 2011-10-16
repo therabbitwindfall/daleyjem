@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" initialize="init()">
+		xmlns:s="library://ns.adobe.com/flex/spark">
     
     <fx:Metadata>
     <![CDATA[ 
@@ -23,17 +23,4 @@
 			<s:BasicLayout/>
 		</s:layout>
 	</s:Group>
-
-	<fx:Script>
-		<![CDATA[
-		
-		private function init():void
-		{
-			//mainContainer.width = stage.width * 0.9;
-			//this.width = stage.width;
-			//this.height = stage.height;
-		}
-		
-		]]>
-	</fx:Script>
 </s:Skin>
