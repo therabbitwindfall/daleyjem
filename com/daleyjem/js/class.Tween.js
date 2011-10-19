@@ -9,6 +9,8 @@ function Tween(obj)
 	this.startVal = 0;
 	this.endVal = 0;
 	this.origFilters = null;
+	this.startOpacity;
+	this.destOpacity;
 	
 	this.position = function(prop, startVal, endVal, duration)
 	{
@@ -39,30 +41,43 @@ function Tween(obj)
 		var timer = setTimeout(function(){thisParent.incrementPosition(thisParent);}, thisParent.incVal);
 	}
 	
-	this.fadeIn = function(duration)
+	this.fade = function(startOpacity, destOpacity, duration)
 	{
-		if (this.isIE)
+		this.startOpacity = startOpacity;
+		this.destOpacity = destOpacity;
+		
+		if (duration == 0)
 		{
-			this.obj.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
-			this.obj.filters.item("DXImageTransform.Microsoft.Alpha").opacity = 0;
+			this.setOpacity(destOpacity);
+			return;
 		}
-		this.obj.style.opacity = 0;
+		this.setOpacity(startOpacity);
+		
 		this.obj.style.visibility = "visible";
 		this.counter = 0;
 		this.destCount = Math.floor((duration * 1000) / this.incVal);
-		this.incrementFadeIn(this);
+		
+		this.incrementFade(this);
 	}
 	
-	this.incrementFadeIn = function(thisParent)
+	this.incrementFade = function(thisParent)
 	{
 		if (thisParent.counter > thisParent.destCount) return;
-		var perc = thisParent.counter / thisParent.destCount;
-		thisParent.obj.style.opacity = +perc;
-		if (thisParent.isIE)
-		{
-			thisParent.obj.filters.item("DXImageTransform.Microsoft.Alpha").opacity = Math.ceil(perc * 100);
-		}
+		var timerPerc = thisParent.counter / thisParent.destCount;
+		var perc = thisParent.startOpacity + (timerPerc * (thisParent.destOpacity - thisParent.startOpacity));
+		thisParent.setOpacity(perc);
 		thisParent.counter++;
-		var timer = setTimeout(function(){thisParent.incrementFadeIn(thisParent);}, thisParent.incVal);
+		
+		var timer = setTimeout(function(){thisParent.incrementFade(thisParent);}, thisParent.incVal);
+	}
+	
+	this.setOpacity = function(theOpacity)
+	{
+		this.obj.style.opacity = +theOpacity;
+		if (this.isIE)
+		{
+			this.obj.style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=" + (theOpacity * 100) + ")";
+			this.obj.filters.item("DXImageTransform.Microsoft.Alpha").opacity = theOpacity * 100;
+		}
 	}
 }
