@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnablePopUpContainer xmlns:s="library://ns.adobe.com/flex/spark"
 						   xmlns:fx="http://ns.adobe.com/mxml/2009"
-						   xmlns:local="com.daleyjem.flex.mobile.layouts.*"
-						   skinClass="com.daleyjem.flex.mobile.skins.AutoCompleteListSkin" contentBackgroundAlpha="0">
+						   skinClass="com.daleyjem.flex.mobile.skins.AutoCompleteListSkin" contentBackgroundAlpha="0" focusEnabled="false">
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
 		
-		* {fontSize:25; }
+		* {fontSize:24; }
 		#selectionItems {color:#333333; }
 	</fx:Style>
 	
@@ -22,15 +21,16 @@
 				<s:VerticalLayout gap="0" horizontalAlign="justify" />
 			</s:layout>
 			<s:layout.upwards>
-				<local:UpwardsLayout />
+				<s:VerticalLayout gap="0" horizontalAlign="justify" verticalAlign="bottom" />
 			</s:layout.upwards>
 		</s:List>
 	</s:VGroup>
 	
 	<fx:Script>
 		<![CDATA[
-		import com.daleyjem.flex.mobile.layouts.UpwardsLayout;
+		import mx.core.FlexGlobals;
 		import spark.layouts.VerticalLayout;
+		import spark.core.NavigationUnit;
 		
 		private function onListItemSelect():void
 		{
@@ -40,10 +40,17 @@
 		public function onDataUpdated():void
 		{
 			if (selectionItems.dataProvider == null) return;
-			if (currentState == "upwards")
+			if (currentState == "upwards" && selectionItems.dataProvider.length > 0)
 			{
-				(selectionItems.layout as UpwardsLayout).verticalScrollPosition = selectionItems.dataGroup.getElementAt(0).height;
+				scrollToBottom();
 			}
+		}
+		
+		private function scrollToBottom():void {
+			var delta:Number = 0;
+			selectionItems.validateNow();
+			delta = selectionItems.layout.getVerticalScrollPositionDelta(NavigationUnit.END);
+			selectionItems.layout.verticalScrollPosition = delta;
 		}
 		]]>
 	</fx:Script>
