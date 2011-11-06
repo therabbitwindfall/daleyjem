@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<fx:Metadata> 
+        [Event(name="change", type="flash.events.Event")]
+    </fx:Metadata> 
 			   
-	<s:TextInput id="txtInput" width="100%" focusAlpha="0" click="onFocus()" change="onChange()" />
+	<s:TextInput id="txtInput" width="100%" focusAlpha="0" keyDown="onKeyDown(event)" click="init()" change="onChange()" />
 		
 	<fx:Script>
 		<![CDATA[
 		import flash.display.DisplayObjectContainer;
+		import flash.events.Event;
+		import flash.events.KeyboardEvent;
 		import flash.geom.Point;
+		import flash.ui.Keyboard;
 		import mx.collections.ArrayList;
 		import mx.core.FlexGlobals;
 		import mx.managers.PopUpManager;
 		import spark.events.PopUpEvent;
-		import com.daleyjem.flex.mobile.components.supportClasses.AutoCompleteList;
 		
 		public var dataProvider:ArrayList;
 		public var estimatedKeyboardTopPercentage:Number = 0.5;
 		
 		private var autoCompleteList:AutoCompleteList;
 		
-		private function onFocus():void
+		public function focus(doSelectAll:Boolean = false):void
 		{
+			txtInput.setFocus();
+			if (doSelectAll) txtInput.selectAll();
+		}
+		
+		public function get text():String
+		{
+			return txtInput.text;
+		}
+		public function set text(value:String):void
+		{
+			txtInput.text = value;
+		}
+		
+		private function init():void
+		{
+			if (autoCompleteList != null && autoCompleteList.isOpen) autoCompleteList.close();
+			
 			autoCompleteList = new AutoCompleteList();
 			autoCompleteList.addEventListener(PopUpEvent.CLOSE, onPopupClosed);
 			autoCompleteList.initialize();
@@ -35,20 +58,20 @@
 			{
 				autoCompleteList.setCurrentState("upwards");
 				autoCompleteList.y = 0;
-				autoCompleteList.maxHeight = thisTop;
+				autoCompleteList.height = thisTop;
 			}
 			else
 			{
 				autoCompleteList.setCurrentState("normal");
 				autoCompleteList.y = thisTop + height;
-				autoCompleteList.maxHeight = keyboardTop - (thisTop + height);
+				autoCompleteList.height = keyboardTop - (thisTop + height);
 			}
 			autoCompleteList.open(parentApplication as DisplayObjectContainer, false);
 			
 			try
 			{
 				FlexGlobals.topLevelApplication.popUp = autoCompleteList;
-			}
+			} 
 			catch (e:Object)
 			{
 				// Do nothing
@@ -66,13 +89,39 @@
 				// Do nothing
 			}
 			
-			if (e.data != null) txtInput.text = e.data;
+			if (e.data != null)
+			{
+				txtInput.text = e.data;
+			}
+
 			txtInput.selectRange(txtInput.text.length, txtInput.text.length);
+			
+			if (e.data != null) dispatchEvent(new Event(Event.CHANGE));
+		}
+		
+		private function onKeyDown(e:KeyboardEvent):void
+		{
+			if (e.keyCode == Keyboard.SEARCH)
+			{
+				showAll();
+			}
+		}
+		
+		private function showAll():void
+		{
+			if (autoCompleteList == null) init();
+			if (txtInput.text.length > 0 || dataProvider == null)
+			{
+				autoCompleteList.selectionItems.dataProvider = null;
+				return;
+			}
+			if (autoCompleteList.currentState == "upwards") dataProvider.source.sort(2);
+			autoCompleteList.selectionItems.dataProvider = dataProvider;
 		}
 		
 		private function onChange():void
 		{
-			if (autoCompleteList == null) onFocus();
+			if (autoCompleteList == null) init();
 			if (txtInput.text.length == 0 || dataProvider == null)
 			{
 				autoCompleteList.selectionItems.dataProvider = null;
