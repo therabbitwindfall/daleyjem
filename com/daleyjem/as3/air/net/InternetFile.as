@@ -73,11 +73,17 @@
 			}
 			
 			urlStream = new URLStream();
-			urlStream.load(urlRequest);
 			urlStream.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, onHTTPResponse);
+			urlStream.addEventListener(HTTPStatusEvent.HTTP_STATUS, onHTTPStatus);
 			urlStream.addEventListener(ProgressEvent.PROGRESS, onStreamProgress);
 			urlStream.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
 			urlStream.addEventListener(Event.COMPLETE, onDownloadComplete);
+			urlStream.load(urlRequest);
+		}
+		
+		private function onHTTPStatus(e:HTTPStatusEvent):void 
+		{
+			trace(e.status);
 		}
 		
 		public function getFilesize():void
@@ -97,6 +103,7 @@
 		
 		private function onSocketError(e:IOErrorEvent):void 
 		{
+			trace("socket error");
 			status = SOCKET_STATUS_ERROR;
 			if (socket.connected) socket.close();
 			dispatchEvent(new InternetFileEvent(this, InternetFileEvent.HEADER_POLL_COMPLETE, true));
@@ -129,6 +136,7 @@
 				}
 				else
 				{
+					trace("status:", tempStatus);
 					status = SOCKET_STATUS_ERROR;
 				}
 				for each (var line:String in splitter)
@@ -162,6 +170,8 @@
 		
 		private function onStreamProgress(e:ProgressEvent):void 
 		{
+			trace("stream progress");
+			
 			var byteArray:ByteArray = new ByteArray();
 			urlStream.readBytes(byteArray, 0, urlStream.bytesAvailable);
 			fileStream.writeBytes(byteArray, 0, byteArray.length);
@@ -179,6 +189,7 @@
 		
 		private function onHTTPResponse(e:HTTPStatusEvent):void 
 		{
+			trace("http response:", e.responseHeaders);
 			headers = new Object();
 			for each (var header:URLRequestHeader in e.responseHeaders)
 			{

@@ -79,6 +79,11 @@ package com.daleyjem.as3.net
 			return _path.substring(0, _path.lastIndexOf("/"));
 		}
 		
+		/**
+		 * Gets a URL variable.
+		 * @param	key	<String> The URL variable name
+		 * @return
+		 */
 		public function getVariable(key:String):Object
 		{
 			for each (var keyVal:Object in _variables)
@@ -86,6 +91,15 @@ package com.daleyjem.as3.net
 				if (keyVal.key == key) return keyVal;
 			}
 			return null;
+		}
+		
+		/**
+		 * Gets the URI of the SWF file calling the function.
+		 * @param	returnNonHTTP	<Boolean> If false, returns null when the URI doesn't contain "http://"
+		 */
+		public static function getThisURI(returnNonHTTP:Boolean = false):String
+		{
+			
 		}
 		
 		private function rebuildPath():void
