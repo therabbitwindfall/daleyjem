@@ -90,15 +90,15 @@
 			var revolutions:Number = degrees / 90;
 			revolutions = (4 - revolutions) % 4;
 			var theArray:Array = Arrays.cloneShallow(array) as Array;
-			for (var revIndex = 0; revIndex < revolutions; revIndex++)
+			for (var revIndex:int = 0; revIndex < revolutions; revIndex++)
 			{
 				var newArray:Array = new Array();
 				var width:Number = Math.sqrt(theArray.length);
 				var initIndex:Number = width - 1;
-				for (var colIndex = 0; colIndex < width; colIndex++)
+				for (var colIndex:int = 0; colIndex < width; colIndex++)
 				{
 					var colStartNum:Number = initIndex + (colIndex * width);
-					for (var rowIndex = 0; rowIndex < width; rowIndex++)
+					for (var rowIndex:int = 0; rowIndex < width; rowIndex++)
 					{
 						newArray[colIndex + (width * rowIndex)] = theArray[colStartNum - rowIndex];
 					}
