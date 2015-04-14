@@ -35,7 +35,7 @@
 		
 		public function query($statement)
 		{
-			mysqli_query($statement);
+			mysqli_query($this->connect, $statement);
 		}
 		
 		/**
@@ -107,7 +107,7 @@
 			foreach ($field_values as $key => $value)
 			{
 				$field_list .= "$key,";
-				$value_list .= "'" . mysqli_real_escape_string($value) . "',";
+				$value_list .= "'" . mysqli_real_escape_string($this->connect, $value) . "',";
 			}
 			
 			$field_list = substr($field_list, 0, -1);
@@ -115,9 +115,9 @@
 			
 			$query = "INSERT INTO $table ($field_list) VALUES ($value_list)";
 			
-			$insert_return = mysqli_query($query);
+			$insert_return = mysqli_query($this->connect, $query);
 			
-			if ($insert_return == false) $this->error = mysqli_error();
+			if ($insert_return == false) $this->error = mysqli_error($this->connect);
 			return $insert_return;
 		}
 		
@@ -137,7 +137,7 @@
 			
 			foreach ($field_values as $key => $value)
 			{
-				$set_list .= "$key='" . mysqli_real_escape_string($value) . "',";
+				$set_list .= "$key='" . mysqli_real_escape_string($this->connect, $value) . "',";
 			}
 			
 			$set_list = substr($set_list, 0, -1);
@@ -151,9 +151,9 @@
 				$query = "UPDATE $table SET $set_list";
 			}
 			
-			$update_return = mysqli_query($query);
+			$update_return = mysqli_query($this->connect, $query);
 			
-			if ($update_return == false) $this->error = mysqli_error();
+			if ($update_return == false) $this->error = mysqli_error($this->connect);
 			return $update_return;
 		}
 		
