@@ -20,11 +20,11 @@
 		*/
 		public function connect($database, $username, $password)
 		{
-			$this->connect = mysql_connect($this->host, $username, $password);
-			$select = mysql_select_db($database);
+			$this->connect = mysqli_connect($this->host, $username, $password);
+			$select = mysqli_select_db($this->connect, $database);
 			if ($this->connect == false or $select == false)
 			{
-				$this->error = mysql_error();
+				$this->error = mysqli_error();
 				return false;
 			}
 			else
@@ -35,7 +35,7 @@
 		
 		public function query($statement)
 		{
-			mysql_query($statement);
+			mysqli_query($statement);
 		}
 		
 		/**
@@ -48,13 +48,13 @@
 		public function select($statement)
 		{
 			$returnVal = array();
-			$result = mysql_query($statement);
+			$result = mysqli_query($this->connect, $statement);
 			if ($result == false)
 			{
-				$this->error = mysql_error();
+				$this->error = mysqli_error();
 				return false;
 			}
-			while ($row = mysql_fetch_assoc($result))
+			while ($row = mysqli_fetch_assoc($result))
 			{
 				$returnVal[] = $row;
 			}
@@ -72,13 +72,13 @@
 		public function select_as_xml($statement)
 		{
 			$return_xml = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><results>";
-			$result = mysql_query($statement);
+			$result = mysqli_query($statement);
 			if ($result == false)
 			{
-				$this->error = mysql_error();
+				$this->error = mysqli_error();
 				return false;
 			}
-			while ($row = mysql_fetch_assoc($result))
+			while ($row = mysqli_fetch_assoc($result))
 			{
 				$return_xml .= "<result>";
 				foreach($row as $key => $value)
@@ -107,7 +107,7 @@
 			foreach ($field_values as $key => $value)
 			{
 				$field_list .= "$key,";
-				$value_list .= "'" . mysql_real_escape_string($value) . "',";
+				$value_list .= "'" . mysqli_real_escape_string($value) . "',";
 			}
 			
 			$field_list = substr($field_list, 0, -1);
@@ -115,9 +115,9 @@
 			
 			$query = "INSERT INTO $table ($field_list) VALUES ($value_list)";
 			
-			$insert_return = mysql_query($query);
+			$insert_return = mysqli_query($query);
 			
-			if ($insert_return == false) $this->error = mysql_error();
+			if ($insert_return == false) $this->error = mysqli_error();
 			return $insert_return;
 		}
 		
@@ -137,7 +137,7 @@
 			
 			foreach ($field_values as $key => $value)
 			{
-				$set_list .= "$key='" . mysql_real_escape_string($value) . "',";
+				$set_list .= "$key='" . mysqli_real_escape_string($value) . "',";
 			}
 			
 			$set_list = substr($set_list, 0, -1);
@@ -151,9 +151,9 @@
 				$query = "UPDATE $table SET $set_list";
 			}
 			
-			$update_return = mysql_query($query);
+			$update_return = mysqli_query($query);
 			
-			if ($update_return == false) $this->error = mysql_error();
+			if ($update_return == false) $this->error = mysqli_error();
 			return $update_return;
 		}
 		
@@ -170,9 +170,9 @@
 		{
 			$query = "DELETE FROM $table WHERE $search_field='$search_value'"; 
 			
-			$delete_return = mysql_query($query);
+			$delete_return = mysqli_query($query);
 			
-			if ($delete_return == false) $this->error = mysql_error();
+			if ($delete_return == false) $this->error = mysqli_error();
 			return $delete_return;
 		}
 		
@@ -183,7 +183,7 @@
 		*/
 		public function close()
 		{
-			$close_return = mysql_close($this->connect);
+			$close_return = mysqli_close($this->connect);
 			return $close_return;
 		}
 		
@@ -198,15 +198,15 @@
 				$query = "UPDATE $table SET $field = 1 - $field";
 			}
 			
-			$update_return = mysql_query($query);
+			$update_return = mysqli_query($query);
 			
-			if ($update_return == false) $this->error = mysql_error();
+			if ($update_return == false) $this->error = mysqli_error();
 			return $update_return;
 		}
 		
 		public function getNextPrimaryKey()
 		{
-			return mysql_insert_id();
+			return mysqli_insert_id();
 		}
 	}
 ?>
